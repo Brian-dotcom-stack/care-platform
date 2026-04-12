@@ -1,0 +1,16 @@
+from rest_framework.permissions import BasePermission
+
+class IsAdminRole(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role == 'admin'
+    
+class IsManagerOrAbove(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated and request.user.role in ('admin', 'manager')
+    
+class IsOwnerOrManager(BasePermission):
+    """Staff can read and edit their own record. Managers can edit their team."""
+    def has_object_permission(self, request, view, obj):
+        if request.user.role in ('admin', 'manager'):
+            return True
+        return obj == request.user
