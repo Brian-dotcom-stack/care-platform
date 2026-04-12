@@ -3,9 +3,9 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Staff, TrainingRecord, ClockRecord } from "./models/staff";
 
-@injectable({ providedIn: "root" })
+@Injectable({ providedIn: "root" })
 export class StaffService {
-  private api = "http://localhost:8000/api/";
+  private api = "http://localhost:8000/api";
 
   constructor(private http: HttpClient) {}
 
@@ -15,7 +15,7 @@ export class StaffService {
   }
 
   getOne (id: Number): Observable<Staff> {
-    return this.http.get<staff>(`${this.api}/staff/${id}/`);
+    return this.http.get<Staff>(`${this.api}/staff/${id}/`);
   }
 
   getMe (): Observable<Staff> {
@@ -35,7 +35,7 @@ export class StaffService {
   }
 
   // Training
-  getTraining(staffId: number): Observable<TrainingRecord[]> {
+  getTraining(staffId: Number): Observable<TrainingRecord[]> {
     return this.http.get<TrainingRecord[]>(
       `${this.api}/staff/${staffId}/training/`
     );
@@ -43,10 +43,10 @@ export class StaffService {
 
   // Clock in/out
   clockIn(): Observable<ClockRecord> {
-    return this.http.post<ClockRecord>(`${this.api}/staff/clock-in/`, {});
+    return this.http.post<ClockRecord>(`${this.api}/staff/clock_in/`, {});
   }
 
   clockOut(): Observable<ClockRecord> {
-    return this.http.post<ClockRecord>(`${this.api}/staff/clock-out/`, {});
+    return this.http.post<ClockRecord>(`${this.api}/staff/clock_out/`, {});
   }
 }
