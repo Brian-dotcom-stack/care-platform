@@ -1,12 +1,24 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
-  protected readonly title = signal('careplatform-frontend');
+export class AppComponent {
+  title = 'CareConnect';
+
+  navItems = [
+    { label: 'Dashboard', path: '/dashboard', icon: 'grid' },
+    { label: 'Staff', path: '/staff', icon: 'people' },
+    { label: 'Clients', path: '/clients', icon: 'groups' },
+    { label: 'Rostering', path: '/roster', icon: 'calendar' },
+    { label: 'Incidents', path: '/incidents', icon: 'warning' },
+    { label: 'Health Reports', path: '/health', icon: 'heart' },
+    { label: 'ABC charts', path: '/abc', icon: 'chart' },
+  ];
 }

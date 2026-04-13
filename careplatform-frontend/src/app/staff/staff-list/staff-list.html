@@ -1,1 +1,51 @@
-<p>staff-list works!</p>
+<div class="page-container">
+
+  <div class="list-header">
+    <h1 class="section-title">Staff</h1>
+    <a routerLink="/staff/new" class="btn-primary">+ Add staff member</a>
+  </div>
+
+  <div class="filters card">
+    <input
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filter()"
+      placeholder="Search by name or job title..."
+      class="search-input"
+    />
+    <select [(ngModel)]="selectedRole" (ngModelChange)="filter()" class="role-select">
+      <option value="">All roles</option>
+      <option value="admin">Admin</option>
+      <option value="manager">Manager</option>
+      <option value="senior_carer">Senior Carer</option>
+      <option value="carer">Carer</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="loading-msg">Loading staff...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="staff-grid">
+    <a *ngFor="let member of filtered" [routerLink]="['/staff', member.id]" class="staff-card">
+      <div class="card-top">
+        <div class="avatar">{{ getInitials(member.full_name) }}</div>
+        <div>
+          <div class="staff-name">{{ member.full_name }}</div>
+          <div class="staff-title">{{ member.job_title }}</div>
+        </div>
+      </div>
+      <div class="card-bottom">
+        <span class="badge" [ngClass]="getRoleBadge(member.role)">
+          {{ getRoleLabel(member.role) }}
+        </span>
+        <span class="badge" [ngClass]="member.is_active ? 'badge-green' : 'badge-gray'">
+          {{ member.is_active ? 'Active' : 'Inactive' }}
+        </span>
+      </div>
+    </a>
+  </div>
+
+  <div *ngIf="!loading && filtered.length === 0 && !error" class="empty-state">
+    No staff members found.
+  </div>
+
+</div>

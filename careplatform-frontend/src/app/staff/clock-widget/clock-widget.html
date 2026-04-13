@@ -1,1 +1,30 @@
-<p>clock-widget works!</p>
+<div class="clock-widget">
+    <div class="clock-status" [ngClass]="isClockedIn ? 'status-in' : 'status-out'">
+        <span class="status-dot"></span>
+        <span>{{ isClockedIn ? 'On Shift' : 'Not clocked in' }} </span>
+    </div>
+
+    <div *ngIf="isClockedIn && clockInTime" class="clock-time">
+        since {{ clockInTime | date:'HH:mm' }}
+    </div>
+
+    <button
+        *ngIf="!isClockedIn"
+        (click)="clockIn()"
+        [disabled]="loading"
+        class="clock-btn btn-clock-in"
+    >
+        {{ loading ? 'Please wait...' : 'Clock in' }}   
+    </button>
+
+    <button
+        *ngIf="!isClockedIn"
+        (click)="clockOut()"
+        [disabled]="loading"
+        class="clock-btn btn_clock-out"
+    >
+        {{ loading ? 'Please wait...' : 'Clock out' }}
+    </button>
+
+    <div *ngIf="message" class="clock-message">{{ message }}</div>
+</div>

@@ -1,11 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { StaffService } from '../staff';
+import { Staff, TrainingRecord } from '../models/staff';
 
 @Component({
   selector: 'app-staff-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './staff-detail.html',
   styleUrl: './staff-detail.scss',
 })
-export class StaffDetailComponent {}
+export class StaffDetailComponent implements OnInit {
+  member: Staff | null = null;
+  training: TrainingRecord[] = [];
+  loading = true;
+  error = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private staffService: StaffService
+  ) {}
+
+  ngOnInit() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.staffService.getOne(id).subscribe({
+      next: (data) => {
+        this.member = data;
+        this.loading = false;
+        this.loadTraining(id);
+      },
+      error: () => {
+        this.error = 'Could not load staff member.';
+        this.loading = false;
+      }
+    });
+  }
+
+  loadTraining(id: Number) {
+    this.staffService.getTraining(id).subscribe({
+      next: (data) => this.training = data,
+      error: () => {}
+    });
+  }
+
+  getInitials(name: string): string {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  isExpiringSoon (dateStr: string | null): boolean {
+    if (!dateStr) return false;
+    const expiry = new Date(dateStr);
+    const soon = new Date();
+    soon.setDate(soon.getDate() + 30); // 30 days from now
+    return expiry <= soon;
+  }
+}
