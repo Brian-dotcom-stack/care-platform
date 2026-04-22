@@ -1,1 +1,92 @@
-<p>client-form works!</p>
+<div class="page-container">
+
+  <a routerLink="/clients" class="back-link">← Back to clients</a>
+
+  <h1 class="section-title">
+    {{ isEditMode ? 'Edit client' : 'Add new client' }}
+  </h1>
+
+  <div *ngIf="loading" class="loading-msg">Loading...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <form *ngIf="!loading" (ngSubmit)="save()">
+
+    <div class="card">
+      <h3 class="card-title">Personal details</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>First name *</label>
+          <input [(ngModel)]="formData.first_name" name="first_name" required class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Last name *</label>
+          <input [(ngModel)]="formData.last_name" name="last_name" required class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Date of birth *</label>
+          <input [(ngModel)]="formData.date_of_birth" name="date_of_birth" type="date" required class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Gender</label>
+          <select [(ngModel)]="formData.gender" name="gender" class="form-input">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Phone</label>
+          <input [(ngModel)]="formData.phone" name="phone" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>NHS number</label>
+          <input [(ngModel)]="formData.nhs_number" name="nhs_number" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Status</label>
+          <select [(ngModel)]="formData.status" name="status" class="form-input">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="hospital">In hospital</option>
+            <option value="deceased">Deceased</option>
+          </select>
+        </div>
+        <div class="form-field full-width">
+          <label>Address</label>
+          <textarea [(ngModel)]="formData.address" name="address" class="form-input" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Medical information</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>GP name</label>
+          <input [(ngModel)]="formData.gp_name" name="gp_name" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>GP phone</label>
+          <input [(ngModel)]="formData.gp_phone" name="gp_phone" class="form-input" />
+        </div>
+        <div class="form-field full-width">
+          <label>Allergies</label>
+          <input [(ngModel)]="formData.allergies" name="allergies" class="form-input" />
+        </div>
+        <div class="form-field full-width">
+          <label>Medical notes</label>
+          <textarea [(ngModel)]="formData.medical_notes" name="medical_notes" class="form-input" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/clients" class="btn-cancel">Cancel</a>
+      <button type="submit" [disabled]="saving" class="btn-save">
+        {{ saving ? 'Saving...' : (isEditMode ? 'Save changes' : 'Add client') }}
+      </button>
+    </div>
+
+  </form>
+
+</div>
