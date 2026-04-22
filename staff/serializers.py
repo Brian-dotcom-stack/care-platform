@@ -5,6 +5,8 @@ from rest_framework import serializers
 from .models import StaffUser, TrainingRecord, StaffDocument, ClockRecord
 
 class StaffListSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField()
+
     class Meta:
         model = StaffUser
         fields = ['id', 'full_name', 'job_title', 'role', 'email', 'phone', 'photo']
@@ -21,7 +23,7 @@ class StaffDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = StaffUser
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'full_name', 'role', 
-                  'job_title', 'contract_type', 'start_date', 'end_date', 'manager', 'phone', 
+                  'job_title', 'contract_type', 'start_date', 'end_date', 'manager_name', 'phone', 
                   'address', 'date_of_birth', 'photo', 'ni_number', 'nok_name', 'nok_relationship', 'nok_phone',
                   'is_active', 'date_joined'
         ]

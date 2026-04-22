@@ -10,9 +10,9 @@ from .permissions import IsAdminRole, IsManagerOrAbove, IsOwnerOrManager
 class StaffViewSet(viewsets.ModelViewSet):
     queryset = StaffUser.objects.filter(is_active=True).order_by('last_name')
     search_fields = ['first_name', 'last_name', 'email', 'job_title']
-    filterset_fields = ['role', ' contract_type']
+    filterset_fields = ['role', 'contract_type']
 
-    def get_serializer(self):
+    def get_serializer_class(self):
         if self.action == 'list':
             return StaffListSerializer
         return StaffDetailSerializer

@@ -1,43 +1,40 @@
-<div class="app-shell">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-mark">CC</div>
-      <div>
-        <div class="logo-name">CareConnect</div>
-        <div class="logo-org">Sunrise Care Ltd</div>
+<ng-container *ngIf="isLoggedIn(); else loginView">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark">CC</div>
+        <div>
+          <div class="logo-name">CareConnect</div>
+          <div class="logo-org">Medicare Support & Housing Ltd</div>
+        </div>
       </div>
-    </div>
+        <nav class="sidebar-nav">
+          <div class="nav-section">People</div>
+          <a routerLink="/staff" routerLinkActive="active" class="nav-item">Staff</a>
+          <a routerLink="/clients" routerLinkActive="active" class="nav-item">Clients</a>
 
-    <nav class="sidebar-nav">
-      <div class="nev-section">Main</div>
-      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">Dashboard
-      </a>
+          <div class="nav-section">Operations</div>
+          <a routerLink="/roster" routerLinkActive="active" class="nav-item">Rostering</a>
+          <a routerLink="/incidents" routerLinkActive="active" class="nav-item">Incidents</a>
 
-      <div class="nav-section">People</div>
-      <a routerLink="/staff" routerLinkActive="active" class="nav-item">Staff</a>
-      <a routerLink="/clients" routerLinkActive="active" class="nav-item">Clients</a>
-
-      <div class="nav-section">Operations</div>
-      <a routerLink="/roster" routerLinkActive="active" class="nav-item">Rostering</a>
-      <a routerLink="/incidents" routerLinkActive="active" class="nav-item">Incidents</a>
-
-      <div class="nav-section">Records</div>
-      <a routerLink="/abc" routerLinkActive="active" class="nav-item">ABC charts</a>
-    </nav>
-
-    <div class="sidebar-user">
-      <div class="avatar">BM</div>
-      <div>
-        <div class="user-name">Brian M.</div>
-        <div class="user-role">Senior Carer</div>
+          <div class="nav-section">Records</div>
+          <a routerLink="/health" routerLinkActive="active" class="nav-item">Health reports</a>
+          <a routerLink="/abc" routerLinkActive="active" class="nav-item">ABC charts</a>
+        </nav>
+      <div class="sidebar-user">
+        <div class="avatar">BM</div>
+        <div>
+          <div class="user-name">Brian M.</div>
+          <div class="user-role">Senior Carer</div>
+        </div>
       </div>
-    </div>
-  </aside>
+    </aside>
+    <main class="main-content">
+      <router-outlet />
+    </main>
+  </div>
+</ng-container>
 
-  <!-- MAIN CONTENT -->
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
-</div>
+<ng-template #loginView>
+  <router-outlet />
+</ng-template>

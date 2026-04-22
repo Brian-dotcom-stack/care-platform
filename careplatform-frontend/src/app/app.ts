@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+// import { ClockWidgetComponent } from './staff/clock-widget/clock-widget';
 
 @Component({
   selector: 'app-root',
@@ -10,15 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.scss'
 })
 export class AppComponent {
-  title = 'CareConnect';
-
-  navItems = [
-    { label: 'Dashboard', path: '/dashboard', icon: 'grid' },
-    { label: 'Staff', path: '/staff', icon: 'people' },
-    { label: 'Clients', path: '/clients', icon: 'groups' },
-    { label: 'Rostering', path: '/roster', icon: 'calendar' },
-    { label: 'Incidents', path: '/incidents', icon: 'warning' },
-    { label: 'Health Reports', path: '/health', icon: 'heart' },
-    { label: 'ABC charts', path: '/abc', icon: 'chart' },
-  ];
+  isLoggedIn(): boolean {
+    if (typeof window === 'undefined') return false;
+    return !!localStorage.getItem('access_token');
+  }
 }
