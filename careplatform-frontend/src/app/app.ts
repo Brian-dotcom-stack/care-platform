@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 // import { ClockWidgetComponent } from './staff/clock-widget/clock-widget';
 
@@ -11,8 +11,20 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.scss'
 })
 export class AppComponent {
+  constructor(private router: Router) {}
+  
   isLoggedIn(): boolean {
-    if (typeof window === 'undefined') return false;
     return !!localStorage.getItem('access_token');
   }
+
+  logout() {
+    // Clear the tokens from local storage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_role'); // If you are storing the role
+    
+    // Send the user back to the login page
+    this.router.navigate(['/login']);
+  }
 }
+

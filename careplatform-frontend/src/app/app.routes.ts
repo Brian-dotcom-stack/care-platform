@@ -14,15 +14,23 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./clients/clients.routes').then(m => m.clientRoutes)
   },
-  {
-    path: 'roster',
-    loadComponent: () =>
-      import('./incidents/incident-list/incident-list').then(m => m.IncidentListComponent)
+  { 
+    path: 'rostering', 
+    children: [
+      { 
+        path: '', 
+        loadComponent: () => import('./rostering/rostering-list/rostering-list').then(m => m.RosteringListComponent) 
+      },
+      { 
+        path: 'new', 
+        loadComponent: () => import('./rostering/shift-form/shift-form').then(m => m.ShiftFormComponent) 
+      }
+    ]
   },
   {
     path: 'incidents',
-    loadComponent: () =>
-      import('./incidents/incident-list/incident-list').then(m => m.IncidentListComponent)
+    loadChildren: () =>
+      import('./incidents/incidents.routes').then(m => m.incidentRoutes)
   },
   {
     path: 'health',

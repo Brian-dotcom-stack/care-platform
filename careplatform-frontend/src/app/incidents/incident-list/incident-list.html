@@ -1,1 +1,69 @@
-<p>incident-list works!</p>
+<div class="page-container">
+
+  <div class="list-header">
+    <h1 class="section-title">Incidents</h1>
+    <a routerLink="/incidents/new" class="btn-primary">+ Log incident</a>
+  </div>
+
+  <div class="filters card">
+    <select [(ngModel)]="selectedStatus" (ngModelChange)="filter()" class="filter-select">
+      <option value="">All statuses</option>
+      <option value="open">Open</option>
+      <option value="under_review">Under review</option>
+      <option value="closed">Closed</option>
+    </select>
+    <select [(ngModel)]="selectedSeverity" (ngModelChange)="filter()" class="filter-select">
+      <option value="">All severities</option>
+      <option value="low">Low</option>
+      <option value="medium">Medium</option>
+      <option value="high">High</option>
+      <option value="critical">Critical</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="loading-msg">Loading incidents...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="card">
+    <div *ngIf="filtered.length === 0" class="empty-state">
+      No incidents found.
+    </div>
+    <table *ngIf="filtered.length > 0" class="incident-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Type</th>
+          <th>Severity</th>
+          <th>Reported by</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let incident of filtered">
+          <tr>
+            <td>{{ incident.date_occurred | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="client-name">{{ incident.client_name }}</td>
+            <td>{{ getTypeLabel(incident.incident_type) }}</td>
+            <td>
+              <span class="badge" [ngClass]="getSeverityBadge(incident.severity)">
+                {{ incident.severity }}
+              </span>
+            </td>
+            <td>{{ incident.reported_by_name }}</td>
+            <td>
+              <span class="badge" [ngClass]="getStatusBadge(incident.status)">
+                {{ incident.status }}
+              </span>
+            </td>
+            <td>
+              <a [routerLink]="['/incidents', incident.id]" class="view-link">View</a>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+</div>

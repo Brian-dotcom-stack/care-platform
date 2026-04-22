@@ -13,5 +13,14 @@ urlpatterns = [
 
     # Staff module endpoints
     path('api/', include('staff.urls')),
+
+    # clients module endpoints
+    path('api/', include('clients.urls')),
+
+    # incidents module endpoints
+    path('api/', include('incidents.urls')),
+
+    # rostering module endpoint
+    path('api/', include('rostering.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

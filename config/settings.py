@@ -25,6 +25,9 @@ INSTALLED_APPS = [
     'simple_history',
     # our apps
     'staff',
+    'clients',
+    'incidents',
+    'rostering',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,43 @@
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.btn-primary {
+  background: #1a56a0;
+  color: white;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #154582;
+  }
+}
+
+.roster-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th {
+    text-align: left;
+    padding: 12px 16px;
+    color: #666;
+    font-size: 13px;
+    border-bottom: 1px solid #eee;
+  }
+
+  td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #f9f9f9;
+    font-size: 14px;
+  }
+}

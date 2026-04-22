@@ -1,0 +1,56 @@
+<div class="page-container">
+  <a routerLink="/rostering" class="back-link">← Back to Roster</a>
+  <h1 class="section-title">Allocate New Shift</h1>
+
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <form (ngSubmit)="save()" class="card">
+    <div class="form-grid">
+      <div class="form-field">
+        <label>Staff Member *</label>
+        <select [(ngModel)]="formData.staff" name="staff" required class="form-input">
+          <option value="">Select staff member...</option>
+          <option *ngFor="let s of staffList" [value]="s.id">{{ s.full_name }}</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label>Client *</label>
+        <select [(ngModel)]="formData.client" name="client" required class="form-input">
+          <option value="">Select client...</option>
+          <option *ngFor="let c of clients" [value]="c.id">{{ c.full_name }}</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label>Start Date & Time *</label>
+        <input type="datetime-local" [(ngModel)]="formData.start_time" name="start" required class="form-input">
+      </div>
+
+      <div class="form-field">
+        <label>End Date & Time *</label>
+        <input type="datetime-local" [(ngModel)]="formData.end_time" name="end" required class="form-input">
+      </div>
+
+      <div class="form-field">
+        <label>Shift Type</label>
+        <select [(ngModel)]="formData.shift_type" name="type" class="form-input">
+          <option value="day">Day Shift</option>
+          <option value="night">Night Shift</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+
+      <div class="form-field full-width">
+        <label>Handover / Support Notes</label>
+        <textarea [(ngModel)]="formData.notes" name="notes" class="form-input" rows="3" placeholder="Add specific instructions for this shift..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="saving" class="btn-primary">
+        {{ saving ? 'Allocating...' : 'Confirm Allocation' }}
+      </button>
+    </div>
+  </form>
+</div>
