@@ -11,8 +11,8 @@ export const routes: Routes = [
   },
   {
     path: 'clients',
-    loadComponent: () =>
-      import('./incidents/incident-list/incident-list').then(m => m.IncidentListComponent)
+    loadChildren: () =>
+      import('./clients/clients.routes').then(m => m.clientRoutes)
   },
   {
     path: 'roster',

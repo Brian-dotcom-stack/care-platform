@@ -1,0 +1,60 @@
+<div class="page-container">
+
+  <div class="list-header">
+    <h1 class="section-title">Clients</h1>
+    <a routerLink="/clients/new" class="btn-primary">+ Add client</a>
+  </div>
+
+  <div class="filters card">
+    <input
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filter()"
+      placeholder="Search by name..."
+      class="search-input"
+    />
+    <select [(ngModel)]="selectedStatus" (ngModelChange)="filter()" class="role-select">
+      <option value="">All statuses</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+      <option value="hospital">In hospital</option>
+      <option value="deceased">Deceased</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="loading-msg">Loading clients...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="client-grid">
+    <ng-container *ngFor="let client of filtered">
+      <a [routerLink]="['/clients', client.id]" class="client-card">
+        <div class="card-top">
+          <div class="avatar">{{ getInitials(client.full_name) }}</div>
+          <div>
+            <div class="client-name">{{ client.full_name }}</div>
+            <div class="client-age">Age {{ getAge(client.date_of_birth) }}</div>
+          </div>
+        </div>
+        <div class="card-mid">
+          <div class="info-row">
+            <span class="info-label">Key worker</span>
+            <span>{{ client.key_worker_name || 'Not assigned' }}</span>
+          </div>
+          <div class="info-row" *ngIf="client.phone">
+            <span class="info-label">Phone</span>
+            <span>{{ client.phone }}</span>
+          </div>
+        </div>
+        <div class="card-bottom">
+          <span class="badge" [ngClass]="getStatusBadge(client.status)">
+            {{ getStatusLabel(client.status) }}
+          </span>
+        </div>
+      </a>
+    </ng-container>
+  </div>
+
+  <div *ngIf="!loading && filtered.length === 0 && !error" class="empty-state">
+    No clients found. Add your first client to get started.
+  </div>
+
+</div>

@@ -1,0 +1,152 @@
+.back-link {
+  display: inline-block;
+  color: #1a56a0;
+  font-size: 13px;
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.profile-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar.large {
+  width: 56px;
+  height: 56px;
+  font-size: 18px;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.profile-sub {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.profile-badges { display: flex; gap: 6px; }
+
+.btn-outline {
+  padding: 8px 16px;
+  border: 1px solid #1a56a0;
+  color: #1a56a0;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.care-plans-card { grid-column: 1 / -1; }
+
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 14px;
+}
+
+.card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.btn-primary-sm {
+  background: #1a56a0;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.detail-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.detail-table tr { border-bottom: 1px solid #f0f0f0; }
+.detail-table td { padding: 8px 0; }
+.detail-table .label { color: #888; width: 120px; }
+
+.notes-box {
+  margin-top: 12px;
+  background: #f5f6fa;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.notes-label {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.notes-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.6;
+}
+
+.nok-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.nok-item:last-child { border-bottom: none; }
+
+.nok-name {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.nok-detail {
+  font-size: 12px;
+  color: #888;
+}
+
+.plan-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.plan-item:last-child { border-bottom: none; }
+
+.plan-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.plan-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.plan-meta {
+  font-size: 12px;
+  color: #888;
+}
+
+.empty-state { color: #aaa; font-size: 13px; padding: 12px 0; }
+.loading-msg { text-align: center; color: #888; padding: 40px; }
+.error-msg { background: #fcebeb; color: #a32d2d; padding: 12px 16px; border-radius: 6px; }

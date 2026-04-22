@@ -1,0 +1,116 @@
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background: #1a56a0;
+  color: white;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.role-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+}
+
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.client-card {
+  background: white;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color 0.15s;
+}
+
+.client-card:hover {
+  border-color: #1a56a0;
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.client-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.client-age {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.card-mid {
+  margin-bottom: 12px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 10px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.info-label {
+  color: #aaa;
+}
+
+.card-bottom {
+  display: flex;
+  gap: 6px;
+}
+
+.loading-msg, .empty-state {
+  text-align: center;
+  color: #888;
+  padding: 40px;
+}
+
+.error-msg {
+  background: #fcebeb;
+  color: #a32d2d;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
