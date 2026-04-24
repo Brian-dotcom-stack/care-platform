@@ -12,6 +12,13 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   constructor(private router: Router) {}
+
+  isDarkMode = false;
+
+  ngOnInit() {
+    this.isDarkMode = document.body.classList.contains('dark-mode');
+  }
+
   
   isLoggedIn(): boolean {
     return !!localStorage.getItem('access_token');

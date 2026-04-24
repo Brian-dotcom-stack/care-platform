@@ -1,2 +1,120 @@
-<label>Client ID</label>
-<input type="number" [(ngModel)]="report.client" name="client" class="form-control">
+<div class="page-container">
+
+  <a routerLink="/health" class="back-link">← Back to health reports</a>
+  <h1 class="section-title">{{ isEditMode ? 'Edit health report' : 'New health report' }}</h1>
+
+  <div *ngIf="loading" class="loading-msg">Loading...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <form *ngIf="!loading" (ngSubmit)="save()">
+
+    <div class="card">
+      <h3 class="card-title">Basic information</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Client *</label>
+          <select [(ngModel)]="formData.client" name="client" required class="form-input">
+            <option value="">Select client...</option>
+            <ng-container *ngFor="let c of clients">
+              <option [value]="c.id">{{ c.full_name }}</option>
+            </ng-container>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Date and time *</label>
+          <input [(ngModel)]="formData.date_recorded" name="date_recorded" type="datetime-local" required class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Mood</label>
+          <select [(ngModel)]="formData.mood" name="mood" class="form-input">
+            <option value="">Select...</option>
+            <option value="happy">Happy</option>
+            <option value="calm">Calm</option>
+            <option value="anxious">Anxious</option>
+            <option value="agitated">Agitated</option>
+            <option value="low">Low</option>
+            <option value="confused">Confused</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Appetite</label>
+          <select [(ngModel)]="formData.appetite" name="appetite" class="form-input">
+            <option value="">Select...</option>
+            <option value="good">Good</option>
+            <option value="fair">Fair</option>
+            <option value="poor">Poor</option>
+            <option value="refused">Refused</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Vitals</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Temperature (°F)</label>
+          <input [(ngModel)]="formData.temperature" name="temperature" type="number" step="0.1" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Pulse (bpm)</label>
+          <input [(ngModel)]="formData.pulse" name="pulse" type="number" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Blood pressure</label>
+          <input [(ngModel)]="formData.blood_pressure" name="blood_pressure" placeholder="e.g. 120/80" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Oxygen level (%)</label>
+          <input [(ngModel)]="formData.oxygen_level" name="oxygen_level" type="number" class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Food and fluid</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Fluid intake (ml)</label>
+          <input [(ngModel)]="formData.fluid_intake_ml" name="fluid_intake_ml" type="number" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Food intake</label>
+          <input [(ngModel)]="formData.food_intake" name="food_intake" placeholder="e.g. Full breakfast" class="form-input" />
+        </div>
+        <div class="form-field">
+          <label>Sleep quality</label>
+          <input [(ngModel)]="formData.sleep_quality" name="sleep_quality" placeholder="e.g. Slept well" class="form-input" />
+        </div>
+        <div class="form-field checkbox-field">
+          <label>
+            <input [(ngModel)]="formData.bowel_movement" name="bowel_movement" type="checkbox" />
+            Bowel movement recorded
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Observations and concerns</h3>
+      <div class="form-grid">
+        <div class="form-field full-width">
+          <label>Observations</label>
+          <textarea [(ngModel)]="formData.observations" name="observations" class="form-input" rows="3" placeholder="General observations about the client today..."></textarea>
+        </div>
+        <div class="form-field full-width">
+          <label>Concerns</label>
+          <textarea [(ngModel)]="formData.concerns" name="concerns" class="form-input" rows="2" placeholder="Any concerns to flag for the next shift or management..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/health" class="btn-cancel">Cancel</a>
+      <button type="submit" [disabled]="saving" class="btn-save">
+        {{ saving ? 'Saving...' : (isEditMode ? 'Save changes' : 'Save report') }}
+      </button>
+    </div>
+
+  </form>
+</div>

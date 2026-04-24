@@ -1,71 +1,73 @@
-import { Component, OnInit } from '@angular/core';
-import { HealthService } from '../health.service';
-
-// Angular standalone imports
-import {
-  NgFor,
-  NgIf,
-  NgClass,
-  DatePipe,
-  TitleCasePipe,
-  UpperCasePipe
-} from '@angular/common';
-
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
+interface HealthReport {
+  id: number;
+  client_name: string;
+  date_recorded: string;
+  mood: string;
+  appetite: string;
+  concerns: string;
+  recorded_by_name: string;
+}
 
 @Component({
   selector: 'app-health-list',
   standalone: true,
-  imports: [
-    NgFor,
-    NgIf,
-    NgClass,
-    FormsModule,
-    RouterLink,
-    DatePipe,
-    TitleCasePipe,
-    UpperCasePipe
-  ],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './health-list.html',
-  styleUrls: ['./health-list.scss']
+  styleUrl: './health-list.scss'
 })
 export class HealthListComponent implements OnInit {
-
-  reports: any[] = [];
-  filtered: any[] = [];
+  reports: HealthReport[] = [];
+  filtered: HealthReport[] = [];
   searchTerm = '';
+  selectedMood = '';
   loading = true;
-  error: string | null = null;
+  error = '';
 
-  constructor(private healthService: HealthService) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.loadReports();
-  }
-
-  loadReports() {
-    this.loading = true;
-    this.error = null;
-
-    this.healthService.getAll().subscribe({
+    const token = localStorage.getItem('access_token');
+    this.http.get<HealthReport[]>('http://localhost:8000/api/health-reports/', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
       next: (data) => {
-        this.reports = data;
-        this.filtered = data;
+        this.reports = [...data];
+        this.filtered = [...data];
         this.loading = false;
+        this.cdr.detectChanges();
       },
-      error: () => {
-        this.error = 'Failed to load health reports.';
+      error: (err) => {
+        this.error = 'Could not load health reports. Status: ' + err.status;
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   filter() {
-    const term = this.searchTerm.toLowerCase();
+    this.filtered = this.reports.filter(r => {
+      const matchSearch = r.client_name.toLowerCase()
+        .includes(this.searchTerm.toLowerCase());
+      const matchMood = this.selectedMood ? r.mood === this.selectedMood : true;
+      return matchSearch && matchMood;
+    });
+  }
 
-    this.filtered = this.reports.filter(report =>
-      report.client_name.toLowerCase().includes(term)
-    );
+  getMoodBadge(mood: string): string {
+    const map: Record<string, string> = {
+      happy:    'badge-green',
+      calm:     'badge-blue',
+      anxious:  'badge-amber',
+      agitated: 'badge-red',
+      low:      'badge-amber',
+      confused: 'badge-red',
+    };
+    return map[mood] || 'badge-gray';
   }
 }

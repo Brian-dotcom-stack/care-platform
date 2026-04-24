@@ -25,6 +25,7 @@ interface Incident {
 export class IncidentListComponent implements OnInit {
   incidents: Incident[] = [];
   filtered: Incident[] = [];
+  searchTerm = '';
   selectedStatus = '';
   selectedSeverity = '';
   loading = true;

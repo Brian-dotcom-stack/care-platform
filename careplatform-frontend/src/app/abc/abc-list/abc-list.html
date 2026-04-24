@@ -2,72 +2,65 @@
 
   <div class="list-header">
     <h1 class="section-title">ABC Charts</h1>
-    <a routerLink="/abc/new" class="btn-primary">+ Log Behaviour</a>
+    <a routerLink="/abc/new" class="btn-primary">+ New ABC Chart</a>
   </div>
 
-    <div class="filters card">
-    <input [(ngModel)]="searchTerm" (ngModelChange)="filter()" placeholder="Search..." class="search-input" />
-    <select [(ngModel)]="selectedStatus" (ngModelChange)="filter()" class="role-select">
-        <option value="">All statuses</option>
-        <option value="open">Open</option>
-        <option value="closed">Closed</option>
-        <option value="in_progress">In progress</option>
+  <div class="filters card">
+    <input
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filter()"
+      placeholder="Search by client name..."
+      class="search-input"
+    />
+    <select [(ngModel)]="selectedIntensity" (ngModelChange)="filter()" class="role-select">
+      <option value="">All intensities</option>
+      <option value="mild">Mild</option>
+      <option value="moderate">Moderate</option>
+      <option value="severe">Severe</option>
     </select>
-
-    <select [(ngModel)]="selectedSeverity" (ngModelChange)="filter()" class="role-select">
-        <option value="">All severities</option>
-        <option value="severe">Severe</option>
-        <option value="medium">Medium</option>
-        <option value="mild">Mild</option>
-    </select>
-
-    <a routerLink="/incidents/new" class="btn-primary">+ Log incident</a>
-    </div>
+  </div>
 
   <div *ngIf="loading" class="loading-msg">Loading ABC charts...</div>
   <div *ngIf="error" class="error-msg">{{ error }}</div>
 
-  <div *ngIf="!loading && !error">
+  <div *ngIf="!loading && !error" class="card">
     <div *ngIf="filtered.length === 0" class="empty-state">
-      No ABC charts found.
+      No ABC charts found. Add the first one to get started.
     </div>
-
-    <div *ngIf="filtered.length > 0" class="grid-cards">
-      <div
-        class="card abc-card"
-        *ngFor="let chart of filtered"
-        [ngClass]="getIntensityBorder(chart.intensity)"
-        [routerLink]="[chart.id]"
-      >
-        <div class="card-header">
-          <div class="client-name">{{ chart.client_name }}</div>
-          <span class="badge"
-            [ngClass]="{
-              'badge-red': chart.intensity === 'severe',
-              'badge-amber': chart.intensity === 'moderate',
-              'badge-blue': chart.intensity === 'mild'
-            }"
-          >
-            {{ chart.intensity | uppercase }}
-          </span>
-        </div>
-
-        <div class="info-block">
-          <label>Behaviour Type</label>
-          <div>{{ chart.behaviour_type | titlecase }}</div>
-        </div>
-
-        <div class="antecedent-box">
-          <label>ANTECEDENT</label>
-          <div class="text-truncate-2">{{ chart.antecedent }}</div>
-        </div>
-
-        <div class="card-footer">
-          <span>{{ chart.date_occurred | date:'shortDate' }} • {{ chart.duration_minutes }} mins</span>
-          <span class="link">Full Analysis →</span>
-        </div>
-      </div>
-    </div>
+    <table *ngIf="filtered.length > 0" class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Behaviour type</th>
+          <th>Intensity</th>
+          <th>Recorded by</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let chart of filtered">
+          <tr>
+            <td>{{ chart.date_occurred | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="client-name">{{ chart.client_name }}</td>
+            <td>
+              <span class="badge" [ngClass]="getTypeBadge(chart.behaviour_type)">
+                {{ getTypeLabel(chart.behaviour_type) }}
+              </span>
+            </td>
+            <td>
+              <span class="badge" [ngClass]="getIntensityBadge(chart.intensity)">
+                {{ chart.intensity }}
+              </span>
+            </td>
+            <td>{{ chart.recorded_by_name }}</td>
+            <td>
+              <a [routerLink]="['/abc', chart.id]" class="view-link">View</a>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
   </div>
 
 </div>

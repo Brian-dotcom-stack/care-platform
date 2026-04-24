@@ -1,1 +1,73 @@
-<p>abc-detail works!</p>
+<div class="page-container">
+
+  <div *ngIf="loading" class="loading-msg">Loading...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && chart">
+
+    <a routerLink="/abc" class="back-link">← Back to ABC charts</a>
+
+    <div class="card profile-header">
+      <div class="header-left">
+        <h2 class="profile-name">{{ chart.client_name }}</h2>
+        <p class="profile-sub">
+          {{ chart.date_occurred | date:'dd/MM/yyyy HH:mm' }}
+          <span *ngIf="chart.duration_minutes"> · {{ chart.duration_minutes }} mins</span>
+          <span *ngIf="chart.location"> · {{ chart.location }}</span>
+        </p>
+        <div class="profile-badges">
+          <span class="badge" [ngClass]="getIntensityBadge(chart.intensity)">
+            {{ chart.intensity }}
+          </span>
+          <span class="badge badge-blue">{{ getTypeLabel(chart.behaviour_type) }}</span>
+        </div>
+      </div>
+      <a [routerLink]="['/abc', chart.id, 'edit']" class="btn-outline">Edit</a>
+    </div>
+
+    <div class="abc-grid">
+
+      <div class="card abc-section antecedent">
+        <div class="abc-letter">A</div>
+        <h3 class="card-title">Antecedent</h3>
+        <p class="abc-hint">What happened immediately before</p>
+        <p class="abc-text">{{ chart.antecedent }}</p>
+      </div>
+
+      <div class="card abc-section behaviour">
+        <div class="abc-letter">B</div>
+        <h3 class="card-title">Behaviour</h3>
+        <p class="abc-hint">What the person did or said</p>
+        <p class="abc-text">{{ chart.behaviour }}</p>
+      </div>
+
+      <div class="card abc-section consequence">
+        <div class="abc-letter">C</div>
+        <h3 class="card-title">Consequence</h3>
+        <p class="abc-hint">What happened and how it was managed</p>
+        <p class="abc-text">{{ chart.consequence }}</p>
+      </div>
+
+    </div>
+
+    <div class="card" *ngIf="chart.witnesses || chart.follow_up">
+      <h3 class="card-title">Additional information</h3>
+      <table class="detail-table">
+        <tr *ngIf="chart.witnesses">
+          <td class="label">Witnesses</td>
+          <td>{{ chart.witnesses }}</td>
+        </tr>
+        <tr *ngIf="chart.follow_up">
+          <td class="label">Follow up</td>
+          <td>{{ chart.follow_up }}</td>
+        </tr>
+        <tr>
+          <td class="label">Recorded by</td>
+          <td>{{ chart.recorded_by_name }}</td>
+        </tr>
+      </table>
+    </div>
+
+  </ng-container>
+
+</div>

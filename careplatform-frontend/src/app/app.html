@@ -1,15 +1,21 @@
 <ng-container *ngIf="isLoggedIn(); else loginView">
   <div class="app-shell">
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <div class="logo-mark">CC</div>
-        <div>
-          <div class="logo-name">CareConnect</div>
-          <div class="logo-org">Medicare Support & Housing Ltd</div>
-        </div>
-      </div>
-      
 
+    <aside class="sidebar">
+
+      <!-- Sidebar Header / Logo -->
+      <div class="sidebar-header">
+        <img
+          [src]="isDarkMode ? 'assets/logo/careconnect-dark.png' : 'assets/logo/careconnect-light.png'"
+          alt="CareConnect Logo"
+          class="sidebar-logo-img"
+        />
+
+        <div class="logo-name">CareConnect</div>
+        <div class="logo-org">Medicare Support & Housing Ltd</div>
+      </div>
+
+      <!-- Navigation -->
       <nav class="sidebar-nav">
         <div class="nav-section">People</div>
         <a routerLink="/staff" routerLinkActive="active" class="nav-item">Staff</a>
@@ -24,6 +30,7 @@
         <a routerLink="/abc" routerLinkActive="active" class="nav-item">ABC charts</a>
       </nav>
 
+      <!-- User Section -->
       <div class="sidebar-user">
         <div style="display: flex; align-items: center; gap: 12px;">
           <div class="avatar">BM</div>
@@ -32,7 +39,7 @@
             <div class="user-role">Senior Carer</div>
           </div>
         </div>
-        
+
         <button (click)="logout()" class="logout-btn" title="Logout">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -41,11 +48,13 @@
           </svg>
         </button>
       </div>
+
     </aside>
 
     <main class="main-content">
       <router-outlet />
     </main>
+
   </div>
 </ng-container>
 

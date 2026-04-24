@@ -1,78 +1,81 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { AbcService } from '../abc.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+
+interface ABCChart {
+  id: number;
+  client_name: string;
+  date_occurred: string;
+  duration_minutes: number | null;
+  intensity: string;
+  behaviour_type: string;
+  antecedent: string;
+  behaviour: string;
+  consequence: string;
+  location: string;
+  witnesses: string;
+  follow_up: string;
+  recorded_by_name: string;
+  created_at: string;
+}
 
 @Component({
   selector: 'app-abc-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
-    <div class="container mt-4" *ngIf="chart">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>ABC Analysis: {{ chart.client_name }}</h2>
-        <span class="badge" [ngClass]="{
-          'bg-danger': chart.intensity === 'severe',
-          'bg-warning': chart.intensity === 'moderate',
-          'bg-info': chart.intensity === 'mild'
-        }">{{ chart.intensity | uppercase }}</span>
-      </div>
-
-      <div class="row mb-4">
-        <div class="col-md-4">
-          <div class="card h-100 border-primary">
-            <div class="card-header bg-primary text-white">A - Antecedent</div>
-            <div class="card-body">{{ chart.antecedent }}</div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card h-100 border-warning">
-            <div class="card-header bg-warning text-dark">B - Behaviour</div>
-            <div class="card-body">
-              <strong>Type:</strong> {{ chart.behaviour_type }}<br>
-              <hr>
-              {{ chart.behaviour }}
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card h-100 border-success">
-            <div class="card-header bg-success text-white">C - Consequence</div>
-            <div class="card-body">{{ chart.consequence }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card shadow-sm mb-4">
-        <div class="card-body">
-          <h5>Additional Details</h5>
-          <p><strong>Location:</strong> {{ chart.location }}</p>
-          <p><strong>Duration:</strong> {{ chart.duration_minutes }} minutes</p>
-          <p><strong>Staff Member:</strong> {{ chart.recorded_by_name }}</p>
-        </div>
-      </div>
-      
-      <button class="btn btn-outline-primary" routerLink="/abc">Back to List</button>
-    </div>
-  `
+  imports: [CommonModule, RouterLink],
+  templateUrl: './abc-detail.html',
+  styleUrl: './abc-detail.scss'
 })
-
 export class AbcDetailComponent implements OnInit {
-  chart: any;
+  chart: ABCChart | null = null;
+  loading = true;
+  error = '';
+  chartId: number = 0;
 
   constructor(
     private route: ActivatedRoute,
-    private abcService: AbcService
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.params['id'];
-
-    this.abcService.get(id).subscribe({
-      next: (data: any) => {
+    this.chartId = Number(this.route.snapshot.paramMap.get('id'));
+    const token = localStorage.getItem('access_token');
+    this.http.get<ABCChart>(`http://localhost:8000/api/abc-charts/${this.chartId}/`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).subscribe({
+      next: (data) => {
         this.chart = data;
+        this.loading = false;
+        this.cdr.detectChanges();
       },
-      error: (err: any) => console.error(err)
+      error: () => {
+        this.error = 'Could not load ABC chart.';
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
+  }
+
+  getIntensityBadge(intensity: string): string {
+    const map: Record<string, string> = {
+      mild:     'badge-blue',
+      moderate: 'badge-amber',
+      severe:   'badge-red',
+    };
+    return map[intensity] || 'badge-gray';
+  }
+
+  getTypeLabel(type: string): string {
+    const map: Record<string, string> = {
+      verbal:    'Verbal',
+      physical:  'Physical',
+      self_harm: 'Self harm',
+      property:  'Property damage',
+      non_verbal:'Non verbal',
+      other:     'Other',
+    };
+    return map[type] || type;
   }
 }

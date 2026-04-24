@@ -6,23 +6,23 @@
   </div>
 
   <div class="filters card">
-    <input [(ngModel)]="searchTerm" (ngModelChange)="filter()" placeholder="Search..." class="search-input" />
-    <select [(ngModel)]="selectedStatus" (ngModelChange)="filter()" class="role-select">
+    <input class="search-input" [(ngModel)]="searchTerm" placeholder="Search..." />
+
+    <select class="role-select" [(ngModel)]="selectedStatus">
       <option value="">All statuses</option>
       <option value="open">Open</option>
       <option value="closed">Closed</option>
       <option value="in_progress">In progress</option>
     </select>
 
-    <select [(ngModel)]="selectedSeverity" (ngModelChange)="filter()" class="role-select">
+    <select class="role-select" [(ngModel)]="selectedSeverity">
       <option value="">All severities</option>
       <option value="severe">Severe</option>
       <option value="medium">Medium</option>
       <option value="mild">Mild</option>
     </select>
-
-    <a routerLink="/incidents/new" class="btn-primary">+ Log incident</a>
   </div>
+
 
   <div *ngIf="loading" class="loading-msg">Loading incidents...</div>
   <div *ngIf="error" class="error-msg">{{ error }}</div>
