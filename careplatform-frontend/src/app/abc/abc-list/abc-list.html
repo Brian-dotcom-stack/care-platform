@@ -1,1 +1,73 @@
-<p>abc-list works!</p>
+<div class="page-container">
+
+  <div class="list-header">
+    <h1 class="section-title">ABC Charts</h1>
+    <a routerLink="/abc/new" class="btn-primary">+ Log Behaviour</a>
+  </div>
+
+    <div class="filters card">
+    <input [(ngModel)]="searchTerm" (ngModelChange)="filter()" placeholder="Search..." class="search-input" />
+    <select [(ngModel)]="selectedStatus" (ngModelChange)="filter()" class="role-select">
+        <option value="">All statuses</option>
+        <option value="open">Open</option>
+        <option value="closed">Closed</option>
+        <option value="in_progress">In progress</option>
+    </select>
+
+    <select [(ngModel)]="selectedSeverity" (ngModelChange)="filter()" class="role-select">
+        <option value="">All severities</option>
+        <option value="severe">Severe</option>
+        <option value="medium">Medium</option>
+        <option value="mild">Mild</option>
+    </select>
+
+    <a routerLink="/incidents/new" class="btn-primary">+ Log incident</a>
+    </div>
+
+  <div *ngIf="loading" class="loading-msg">Loading ABC charts...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div *ngIf="!loading && !error">
+    <div *ngIf="filtered.length === 0" class="empty-state">
+      No ABC charts found.
+    </div>
+
+    <div *ngIf="filtered.length > 0" class="grid-cards">
+      <div
+        class="card abc-card"
+        *ngFor="let chart of filtered"
+        [ngClass]="getIntensityBorder(chart.intensity)"
+        [routerLink]="[chart.id]"
+      >
+        <div class="card-header">
+          <div class="client-name">{{ chart.client_name }}</div>
+          <span class="badge"
+            [ngClass]="{
+              'badge-red': chart.intensity === 'severe',
+              'badge-amber': chart.intensity === 'moderate',
+              'badge-blue': chart.intensity === 'mild'
+            }"
+          >
+            {{ chart.intensity | uppercase }}
+          </span>
+        </div>
+
+        <div class="info-block">
+          <label>Behaviour Type</label>
+          <div>{{ chart.behaviour_type | titlecase }}</div>
+        </div>
+
+        <div class="antecedent-box">
+          <label>ANTECEDENT</label>
+          <div class="text-truncate-2">{{ chart.antecedent }}</div>
+        </div>
+
+        <div class="card-footer">
+          <span>{{ chart.date_occurred | date:'shortDate' }} • {{ chart.duration_minutes }} mins</span>
+          <span class="link">Full Analysis →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

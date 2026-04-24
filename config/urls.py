@@ -22,5 +22,11 @@ urlpatterns = [
 
     # rostering module endpoint
     path('api/', include('rostering.urls')),
+
+    # health reports module endpoint
+    path('api/', include('health_reports.urls')),
+
+    # abc charts module endpoint
+    path('api/', include('abc_charts.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

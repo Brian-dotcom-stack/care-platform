@@ -1,3 +1,12 @@
+@use './styles/buttons';
+@use './styles/cards';
+@use './styles/badges';
+@use './styles/avatars';
+@use './styles/forms';
+@use './styles/tables';
+@use './styles/layout';
+@use './styles/typography';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -54,4 +63,30 @@ body {
   font-weight: 600;
   font-size: 13px;
   flex-shrink: 0;
+}
+
+.avatar-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-3px);
 }

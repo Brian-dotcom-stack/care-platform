@@ -1,0 +1,33 @@
+<div *ngIf="report" class="card shadow-sm p-4">
+
+  <h3>{{ report.client_name }}</h3>
+
+  <div class="row mt-3">
+
+    <div class="col-md-6">
+      <p><strong>Mood:</strong> {{ report.mood }}</p>
+      <p><strong>Appetite:</strong> {{ report.appetite }}</p>
+      <p><strong>Pulse:</strong> {{ report.pulse }}</p>
+    </div>
+
+    <div class="col-md-6">
+      <p><strong>Temp:</strong> {{ report.temperature }}</p>
+      <p><strong>Fluid Intake:</strong> {{ report.fluid_intake_ml }} ml</p>
+      <p><strong>Bowel:</strong> {{ report.bowel_movement ? 'Yes' : 'No' }}</p>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <h5>Observations</h5>
+  <p>{{ report.observations }}</p>
+
+  <div class="mt-3">
+    <button class="btn btn-primary"
+      [routerLink]="['/health', report.id, 'edit']">
+      Edit
+    </button>
+  </div>
+
+</div>
