@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-// import { ClockWidgetComponent } from './staff/clock-widget/clock-widget';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,21 +10,45 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  isDarkMode = false;
+
   constructor(private router: Router) {}
-  
+
+  ngOnInit() {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('dark_mode');
+      if (saved === 'true') {
+        this.isDarkMode = true;
+        document.body.classList.add('dark-mode');
+      }
+    }
+  }
+
   isLoggedIn(): boolean {
+    if (typeof window === 'undefined') return false;
     return !!localStorage.getItem('access_token');
   }
 
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('dark_mode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('dark_mode', 'false');
+    }
+  }
+
   logout() {
-    // Clear the tokens from local storage
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
-    localStorage.removeItem('user_role'); // If you are storing the role
-    
-    // Send the user back to the login page
+    localStorage.removeItem('clock_in_time');
     this.router.navigate(['/login']);
   }
-}
 
+  getInitials(): string {
+    return 'BM';
+  }
+}

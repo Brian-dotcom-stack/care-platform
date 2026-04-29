@@ -1,8 +1,15 @@
 <ng-container *ngIf="isLoggedIn(); else loginView">
   <div class="app-shell">
+
     <aside class="sidebar">
+
       <div class="sidebar-logo">
-        <div class="logo-mark">CC</div>
+        <img
+          [src]="isDarkMode ? 'assets/careconnect-dark.png' : 'assets/careconnect-light.png'"
+          alt="CareConnect"
+          class="logo-img"
+          onerror="this.style.display='none'"
+        />
         <div>
           <div class="logo-name">CareConnect</div>
           <div class="logo-org">Medicare Support & Housing Ltd</div>
@@ -11,40 +18,43 @@
 
       <nav class="sidebar-nav">
         <div class="nav-section">People</div>
-        <a routerLink="/staff" routerLinkActive="active" class="nav-item">Staff</a>
+        <a routerLink="/staff"   routerLinkActive="active" class="nav-item">Staff</a>
         <a routerLink="/clients" routerLinkActive="active" class="nav-item">Clients</a>
 
         <div class="nav-section">Operations</div>
-        <a routerLink="/rostering" routerLinkActive="active" class="nav-item">Rostering</a>
-        <a routerLink="/incidents" routerLinkActive="active" class="nav-item">Incidents</a>
+        <a routerLink="/rostering"  routerLinkActive="active" class="nav-item">Rostering</a>
+        <a routerLink="/incidents"  routerLinkActive="active" class="nav-item">Incidents</a>
 
         <div class="nav-section">Records</div>
         <a routerLink="/health" routerLinkActive="active" class="nav-item">Health reports</a>
-        <a routerLink="/abc" routerLinkActive="active" class="nav-item">ABC charts</a>
+        <a routerLink="/abc"    routerLinkActive="active" class="nav-item">ABC charts</a>
       </nav>
 
+      <div style="padding: 8px;">
+        <button class="theme-toggle" (click)="toggleDarkMode()">
+          {{ isDarkMode ? '☀ Light mode' : '🌙 Dark mode' }}
+        </button>
+      </div>
+
       <div class="sidebar-user">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <div class="avatar">BM</div>
-          <div>
-            <div class="user-name">Brian M.</div>
-            <div class="user-role">Senior Carer</div>
-          </div>
+        <div class="avatar">{{ getInitials() }}</div>
+        <div>
+          <div class="user-name">Brian M.</div>
+          <div class="user-role">Senior Carer</div>
         </div>
-        
-        <button (click)="logout()" class="logout-btn" title="Logout">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
+        <button class="logout-btn" (click)="logout()" title="Log out">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </div>
+
     </aside>
 
     <main class="main-content">
       <router-outlet />
     </main>
+
   </div>
 </ng-container>
 

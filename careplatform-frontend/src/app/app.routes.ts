@@ -34,12 +34,12 @@ export const routes: Routes = [
   },
   {
     path: 'health',
-    loadComponent: () =>
-      import('./health/health-list/health-list').then(m => m.HealthListComponent)
+    loadChildren: () =>
+      import('./health/health.routes').then(m => m.healthRoutes)
   },
   {
     path: 'abc',
-    loadComponent: () =>
-      import('./abc/abc-list/abc-list').then(m => m.AbcListComponent)
+    loadChildren: () =>
+      import('./abc/abc.routes').then(m => m.abcRoutes)
   }
 ];

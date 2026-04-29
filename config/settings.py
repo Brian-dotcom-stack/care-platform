@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     'clients',
     'incidents',
     'rostering',
+    'health_reports',
+    'abc_charts',
 ]
 
 MIDDLEWARE = [

@@ -1,1 +1,67 @@
-<p>health-list works!</p>
+<div class="page-container">
+
+  <div class="list-header">
+    <h1 class="section-title">Health Reports</h1>
+    <a routerLink="/health/new" class="btn-primary">+ New Report</a>
+  </div>
+
+  <div class="filters card">
+    <input
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="filter()"
+      placeholder="Search by client name..."
+      class="search-input"
+    />
+    <select [(ngModel)]="selectedMood" (ngModelChange)="filter()" class="role-select">
+      <option value="">All moods</option>
+      <option value="happy">Happy</option>
+      <option value="calm">Calm</option>
+      <option value="anxious">Anxious</option>
+      <option value="agitated">Agitated</option>
+      <option value="low">Low</option>
+      <option value="confused">Confused</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="loading-msg">Loading health reports...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="card">
+    <div *ngIf="filtered.length === 0" class="empty-state">
+      No health reports found. Add the first one to get started.
+    </div>
+    <table *ngIf="filtered.length > 0" class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Mood</th>
+          <th>Appetite</th>
+          <th>Recorded by</th>
+          <th>Concerns</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let report of filtered">
+          <tr>
+            <td>{{ report.date_recorded | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="client-name">{{ report.client_name }}</td>
+            <td>
+              <span class="badge" [ngClass]="getMoodBadge(report.mood)">
+                {{ report.mood || '—' }}
+              </span>
+            </td>
+            <td>{{ report.appetite || '—' }}</td>
+            <td>{{ report.recorded_by_name }}</td>
+            <td class="concerns-cell">{{ report.concerns || 'None' }}</td>
+            <td>
+              <a [routerLink]="['/health', report.id]" class="view-link">View</a>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+</div>

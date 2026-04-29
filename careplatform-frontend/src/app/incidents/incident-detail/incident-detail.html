@@ -1,55 +1,69 @@
-<div class="page-container" *ngIf="incident">
-  <div class="detail-header">
-    <div>
-      <a routerLink="/incidents" class="back-link">← Back to incidents</a>
-      <h1 class="section-title">{{ getTypeLabel(incident.incident_type) }} — {{ incident.client_name }}</h1>
-      <p class="subtitle">Logged on {{ incident.created_at | date:'dd MMM yyyy' }} by {{ incident.reported_by_name }}</p>
-    </div>
-    <a [routerLink]="['/incidents', incident.id, 'edit']" class="btn-secondary">Edit Incident</a>
-  </div>
+<div class="page-container">
 
-  <div class="detail-grid">
-    <div class="main-content">
-      <div class="card info-section">
-        <h3 class="card-label">Description of Incident</h3>
-        <p class="content-text">{{ incident.description }}</p>
-        
-        <h3 class="card-label">Immediate Action Taken</h3>
-        <p class="content-text">{{ incident.immediate_action || 'None recorded' }}</p>
+  <div *ngIf="loading" class="loading-msg">Loading...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
 
-        <h3 class="card-label">Witnesses</h3>
-        <p class="content-text">{{ incident.witnesses || 'No witnesses recorded' }}</p>
-      </div>
+  <ng-container *ngIf="!loading && incident">
 
-      <div class="card info-section">
-        <h3 class="card-label">Follow-up & Actions</h3>
-        <p class="content-text">{{ incident.follow_up || 'No follow-up actions pending' }}</p>
-      </div>
-    </div>
+    <a routerLink="/incidents" class="back-link">← Back to incidents</a>
 
-    <div class="sidebar">
-      <div class="card status-card">
-        <div class="meta-item">
-          <label>Status</label>
-          <span class="status-val">{{ incident.status | titlecase }}</span>
-        </div>
-        <div class="meta-item">
-          <label>Severity</label>
-          <span class="severity-val" [attr.data-severity]="incident.severity">
-            {{ incident.severity | titlecase }}
+    <div class="card profile-header">
+      <div class="header-left">
+        <h2 class="profile-name">{{ getTypeLabel(incident.incident_type) }} — {{ incident.client_name }}</h2>
+        <p class="profile-sub">
+          {{ incident.date_occurred | date:'dd/MM/yyyy HH:mm' }}
+          <span *ngIf="incident.location"> · {{ incident.location }}</span>
+          · Reported by {{ incident.reported_by_name }}
+        </p>
+        <div class="profile-badges">
+          <span class="badge" [ngClass]="getSeverityBadge(incident.severity)">
+            {{ incident.severity }}
+          </span>
+          <span class="badge" [ngClass]="getStatusBadge(incident.status)">
+            {{ incident.status }}
           </span>
         </div>
-        <div class="meta-item">
-          <label>Date & Time</label>
-          <span>{{ incident.date_occurred | date:'dd/MM/yyyy HH:mm' }}</span>
-        </div>
-        <div class="meta-item">
-          <label>Location</label>
-          <span>{{ incident.location || 'Not specified' }}</span>
-        </div>
       </div>
+      <a [routerLink]="['/incidents', incident.id, 'edit']" class="btn-outline">Edit</a>
     </div>
-  </div>
-</div>
 
-<div *ngIf="loading" class="loading-msg">Loading incident details...</div>
+    <div class="detail-grid">
+
+      <div class="card full-width">
+        <h3 class="card-title">Description</h3>
+        <p class="detail-text">{{ incident.description }}</p>
+      </div>
+
+      <div class="card" *ngIf="incident.immediate_action">
+        <h3 class="card-title">Immediate action taken</h3>
+        <p class="detail-text">{{ incident.immediate_action }}</p>
+      </div>
+
+      <div class="card" *ngIf="incident.follow_up">
+        <h3 class="card-title">Follow up required</h3>
+        <p class="detail-text">{{ incident.follow_up }}</p>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Additional details</h3>
+        <table class="detail-table">
+          <tr>
+            <td class="label">Witnesses</td>
+            <td>{{ incident.witnesses || 'None recorded' }}</td>
+          </tr>
+          <tr>
+            <td class="label">Reported by</td>
+            <td>{{ incident.reported_by_name }}</td>
+          </tr>
+          <tr>
+            <td class="label">Logged at</td>
+            <td>{{ incident.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

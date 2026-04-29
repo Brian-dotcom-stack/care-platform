@@ -1,31 +1,88 @@
 <div class="page-container">
+
   <div class="list-header">
     <h1 class="section-title">Staff Roster</h1>
     <a routerLink="/rostering/new" class="btn-primary">+ Allocate Shift</a>
   </div>
 
-  <div *ngIf="loading" class="loading-msg">Loading roster...</div>
+  <div *ngIf="loading" class="loading-msg">Loading shifts...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
 
-  <div class="card" *ngIf="!loading">
-    <div *ngIf="shifts.length === 0" class="empty-state">No shifts found in the system.</div>
-    
-    <table class="roster-table" *ngIf="shifts.length > 0">
+  <div *ngIf="myShifts.length > 0" class="card" style="margin-bottom: 20px">
+    <h3 class="card-title">My upcoming shifts</h3>
+    <div *ngFor="let shift of myShifts" class="my-shift-row">
+      <div class="shift-info">
+        <div class="shift-date">{{ shift.start_time | date:'EEE dd/MM/yyyy' }}</div>
+        <div class="shift-time">{{ shift.start_time | date:'HH:mm' }} — {{ shift.end_time | date:'HH:mm' }}</div>
+        <div class="shift-client">{{ shift.client_name }}</div>
+      </div>
+      <div class="shift-clock">
+        <span class="badge" [ngClass]="getStatusBadge(shift.status)">{{ shift.status }}</span>
+        <div *ngIf="shift.clocked_in_at" class="clock-detail">
+          In: {{ formatTime(shift.clocked_in_at) }}
+          <span *ngIf="shift.clocked_in_late" class="late-badge">Late</span>
+        </div>
+        <div *ngIf="shift.clocked_out_at" class="clock-detail">
+          Out: {{ formatTime(shift.clocked_out_at) }}
+        </div>
+        <div *ngIf="shift.hours_worked" class="clock-detail">
+          {{ shift.hours_worked }}hrs worked
+        </div>
+        <button
+          *ngIf="!shift.clocked_in_at"
+          (click)="clockIn(shift.id)"
+          [disabled]="clockingShiftId === shift.id"
+          class="btn-clock-in">
+          {{ clockingShiftId === shift.id ? 'Please wait...' : 'Clock in' }}
+        </button>
+        <button
+          *ngIf="shift.clocked_in_at && !shift.clocked_out_at"
+          (click)="clockOut(shift.id)"
+          [disabled]="clockingShiftId === shift.id"
+          class="btn-clock-out">
+          {{ clockingShiftId === shift.id ? 'Please wait...' : 'Clock out' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error" class="card">
+    <h3 class="card-title">All shifts</h3>
+    <table class="roster-table">
       <thead>
         <tr>
           <th>Date</th>
           <th>Staff</th>
           <th>Client</th>
           <th>Shift</th>
+          <th>Clocked in</th>
+          <th>Clocked out</th>
+          <th>Hours</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let shift of shifts">
-          <td>{{ shift.start_time | date:'dd/MM/yyyy' }}</td>
-          <td><strong>{{ shift.staff_name }}</strong></td>
-          <td>{{ shift.client_name }}</td>
-          <td>{{ shift.start_time | date:'HH:mm' }} - {{ shift.end_time | date:'HH:mm' }}</td>
-        </tr>
+        <ng-container *ngFor="let shift of shifts">
+          <tr [class.late-row]="shift.clocked_in_late">
+            <td>{{ shift.start_time | date:'dd/MM/yyyy' }}</td>
+            <td class="staff-name">{{ shift.staff_name }}</td>
+            <td>{{ shift.client_name }}</td>
+            <td>{{ shift.start_time | date:'HH:mm' }} - {{ shift.end_time | date:'HH:mm' }}</td>
+            <td>
+              {{ formatTime(shift.clocked_in_at) }}
+              <span *ngIf="shift.clocked_in_late" class="late-badge">Late</span>
+            </td>
+            <td>{{ formatTime(shift.clocked_out_at) }}</td>
+            <td>{{ shift.hours_worked ? shift.hours_worked + 'h' : '—' }}</td>
+            <td>
+              <span class="badge" [ngClass]="getStatusBadge(shift.status)">
+                {{ shift.status }}
+              </span>
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>
+
 </div>
