@@ -41,50 +41,50 @@
 }
 
 .staff-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
 }
 
 .staff-card {
-    background: white;
-    border: 1px solid #e8e8e8;
-    border-radius: 10px;
-    padding: 16px;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    transition: border-color 0.15s, box-shadow 0.15s;
-}
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color 0.15s, box-shadow 0.15s;
 
-.staff-card:hover {
-    border-color: #1a56a0;
-    box-shadow: 0 2px 8px rgba(26, 86, 160, 0.08);
+  &:hover {
+    border-color: var(--brand);
+    box-shadow: 0 2px 8px rgba(26,86,160,0.08);
+  }
 }
 
 .card-top {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .staff-name {
-    font-size: 14px;
-    font-weight: 500;
-    color: #1a1a1a
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .staff-title {
-    font-size: 12px;
-    color: #888;
-    margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
 }
 
 .card-bottom {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .loading-msg, empty-state {
