@@ -1,56 +1,53 @@
 <ng-container *ngIf="isLoggedIn(); else loginView">
   <div class="app-shell">
 
-    <aside class="sidebar">
+  <aside class="sidebar">
 
-      <div class="sidebar-logo">
-        <img
-          [src]="isDarkMode ? 'assets/careconnect-dark.png' : 'assets/careconnect-light.png'"
-          alt="CareConnect"
-          class="logo-img"
-          onerror="this.style.display='none'"
-        />
-        <div>
-          <div class="logo-name">CareConnect</div>
-          <div class="logo-org">Medicare Support & Housing Ltd</div>
-        </div>
+    <div class="sidebar-logo">
+      <img
+        [src]="isDarkMode ? 'assets/logo/careconnect-dark.png' : 'assets/logo/careconnect-light.png'"
+        alt="CareConnect"
+        class="logo-img"
+      />
+      <div class="logo-org">Medicare Support & Housing Ltd</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">People</div>
+      <a routerLink="/staff"   routerLinkActive="active" class="nav-item">Staff</a>
+      <a routerLink="/clients" routerLinkActive="active" class="nav-item">Clients</a>
+
+      <div class="nav-section">Operations</div>
+      <a routerLink="/rostering" routerLinkActive="active" class="nav-item">Rostering</a>
+      <a routerLink="/incidents" routerLinkActive="active" class="nav-item">Incidents</a>
+
+      <div class="nav-section">Records</div>
+      <a routerLink="/health" routerLinkActive="active" class="nav-item">Health reports</a>
+      <a routerLink="/abc"    routerLinkActive="active" class="nav-item">ABC charts</a>
+    </nav>
+
+    <button class="theme-toggle" (click)="toggleDarkMode()">
+      {{ isDarkMode ? '☀ Light mode' : '🌙 Dark mode' }}
+    </button>
+
+    <div class="sidebar-user">
+      <div class="avatar">{{ getInitials() }}</div>
+      <div>
+        <div class="user-name">Brian M.</div>
+        <div class="user-role">Senior Carer</div>
       </div>
+      <button class="logout-btn" (click)="logout()" title="Log out">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6"
+                stroke="currentColor" stroke-width="1.5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
 
-      <nav class="sidebar-nav">
-        <div class="nav-section">People</div>
-        <a routerLink="/staff"   routerLinkActive="active" class="nav-item">Staff</a>
-        <a routerLink="/clients" routerLinkActive="active" class="nav-item">Clients</a>
-
-        <div class="nav-section">Operations</div>
-        <a routerLink="/rostering"  routerLinkActive="active" class="nav-item">Rostering</a>
-        <a routerLink="/incidents"  routerLinkActive="active" class="nav-item">Incidents</a>
-
-        <div class="nav-section">Records</div>
-        <a routerLink="/health" routerLinkActive="active" class="nav-item">Health reports</a>
-        <a routerLink="/abc"    routerLinkActive="active" class="nav-item">ABC charts</a>
-      </nav>
-
-      <div style="padding: 8px;">
-        <button class="theme-toggle" (click)="toggleDarkMode()">
-          {{ isDarkMode ? '☀ Light mode' : '🌙 Dark mode' }}
-        </button>
-      </div>
-
-      <div class="sidebar-user">
-        <div class="avatar">{{ getInitials() }}</div>
-        <div>
-          <div class="user-name">Brian M.</div>
-          <div class="user-role">Senior Carer</div>
-        </div>
-        <button class="logout-btn" (click)="logout()" title="Log out">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-
-    </aside>
-
+  </aside>
+  
+    <!-- MAIN CONTENT -->
     <main class="main-content">
       <router-outlet />
     </main>

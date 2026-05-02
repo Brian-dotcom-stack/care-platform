@@ -12,21 +12,31 @@
 
     <a routerLink="/staff" class="back-link">← Back to staff</a>
 
-    <div class="card profile-header">
-      <div class="profile-left">
+    <!-- Modern unified header -->
+    <div class="profile-header-modern">
+      <div class="profile-info">
         <div class="avatar large">{{ getInitials(member.full_name) }}</div>
-        <div>
+
+        <div class="profile-text">
           <h2 class="profile-name">{{ member.full_name }}</h2>
-          <p class="profile-title">{{ member.job_title }}</p>
+
+          <div class="profile-meta">
+            <span>{{ member.job_title }}</span>
+            <span class="dot">•</span>
+            <span>{{ member.role }}</span>
+          </div>
+
           <div class="profile-badges">
-            <span class="badge badge-blue">{{ member.role }}</span>
             <span class="badge" [ngClass]="member.is_active ? 'badge-green' : 'badge-gray'">
               {{ member.is_active ? 'Active' : 'Inactive' }}
             </span>
           </div>
         </div>
       </div>
-      <a [routerLink]="['/staff', member.id, 'edit']" class="btn-outline">Edit profile</a>
+
+      <a [routerLink]="['/staff', member.id, 'edit']" class="modern-edit-btn btn-outline">
+        Edit profile
+      </a>
     </div>
 
     <div class="detail-grid">
@@ -63,7 +73,11 @@
 
       <div class="card training-card">
         <h3 class="card-title">Training records</h3>
-        <div *ngIf="training.length === 0" class="empty-state">No training records yet.</div>
+
+        <div *ngIf="training.length === 0" class="empty-state">
+          No training records yet.
+        </div>
+
         <table *ngIf="training.length > 0" class="training-table">
           <thead>
             <tr>

@@ -1,27 +1,30 @@
+/* My Shifts */
 .my-shift-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
 }
 
-.my-shift-row:last-child { border-bottom: none; }
+.my-shift-row:last-child {
+  border-bottom: none;
+}
 
 .shift-date {
   font-size: 13px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 .shift-time {
   font-size: 12px;
-  color: #888;
+  color: var(--text-muted);
 }
 
 .shift-client {
   font-size: 12px;
-  color: #1a56a0;
+  color: var(--brand);
 }
 
 .shift-clock {
@@ -34,12 +37,13 @@
 
 .clock-detail {
   font-size: 12px;
-  color: #555;
+  color: var(--text-secondary);
 }
 
+/* Late badge */
 .late-badge {
-  background: #fcebeb;
-  color: #a32d2d;
+  background: var(--error-bg);
+  color: var(--error-text);
   padding: 1px 6px;
   border-radius: 4px;
   font-size: 10px;
@@ -47,8 +51,9 @@
   margin-left: 4px;
 }
 
+/* Clock buttons */
 .btn-clock-in {
-  background: #1a56a0;
+  background: var(--brand);
   color: white;
   border: none;
   padding: 6px 14px;
@@ -59,8 +64,8 @@
 }
 
 .btn-clock-out {
-  background: #fcebeb;
-  color: #a32d2d;
+  background: var(--error-bg);
+  color: var(--error-text);
   border: none;
   padding: 6px 14px;
   border-radius: 6px;
@@ -69,6 +74,7 @@
   cursor: pointer;
 }
 
+/* Table */
 .roster-table {
   width: 100%;
   border-collapse: collapse;
@@ -78,19 +84,32 @@
 .roster-table th {
   text-align: left;
   padding: 8px 10px;
-  color: #888;
+  color: var(--text-muted);
   font-weight: 400;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid var(--border);
 }
 
 .roster-table td {
   padding: 10px 10px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
 }
 
-.roster-table tr:last-child td { border-bottom: none; }
-.roster-table tr:hover td { background: #f9f9f9; }
+.roster-table tr:last-child td {
+  border-bottom: none;
+}
 
-.late-row td { background: #fffbf0; }
+/* Hover row */
+.roster-table tr:hover td {
+  background: var(--bg-subtle);
+}
 
-.staff-name { font-weight: 500; }
+/* Late row highlight */
+.late-row td {
+  background: rgba(255, 200, 0, 0.08); /* subtle amber highlight */
+}
+
+.staff-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}

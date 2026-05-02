@@ -1,19 +1,16 @@
 <div class="page-container">
 
-  <div *ngIf="loading" class="loading-msg">Loading...</div>
-  <div *ngIf="error" class="error-msg">{{ error }}</div>
+  <a routerLink="/health" class="back-link">← Back to health reports</a>
 
   <ng-container *ngIf="!loading && report">
-
-    <a routerLink="/health" class="back-link">← Back to health reports</a>
-
-    <div class="card profile-header">
-      <div class="header-left">
-        <h2 class="profile-name">{{ report.client_name }}</h2>
-        <p class="profile-sub">
-          {{ report.date_recorded | date:'dd/MM/yyyy HH:mm' }}
-          · Recorded by {{ report.recorded_by_name }}
-        </p>
+    <div class="detail-header-modern">
+      <div class="detail-header-left">
+        <h2 class="detail-title">{{ report.client_name }}</h2>
+        <div class="detail-meta">
+          <span>{{ report.date_recorded | date:'dd/MM/yyyy HH:mm' }}</span>
+          <span class="dot">•</span>
+          <span>Recorded by {{ report.recorded_by_name }}</span>
+        </div>
         <div class="profile-badges">
           <span *ngIf="report.mood" class="badge" [ngClass]="getMoodBadge(report.mood)">
             {{ report.mood }}
@@ -21,75 +18,42 @@
           <span *ngIf="report.concerns" class="badge badge-amber">Concerns noted</span>
         </div>
       </div>
-      <a [routerLink]="['/health', report.id, 'edit']" class="btn-outline">Edit</a>
+      <a [routerLink]="['/health', report.id, 'edit']" class="modern-edit-btn btn-outline">Edit</a>
     </div>
 
-    <div class="detail-grid">
-
-      <div class="card">
-        <h3 class="card-title">Vitals</h3>
-        <div class="vitals-grid">
-          <div class="vital-box">
-            <div class="vital-value">{{ report.temperature ? report.temperature + '°F' : '—' }}</div>
-            <div class="vital-label">Temperature</div>
-          </div>
-          <div class="vital-box">
-            <div class="vital-value">{{ report.pulse ? report.pulse + ' bpm' : '—' }}</div>
-            <div class="vital-label">Pulse</div>
-          </div>
-          <div class="vital-box">
-            <div class="vital-value">{{ report.blood_pressure || '—' }}</div>
-            <div class="vital-label">Blood pressure</div>
-          </div>
-          <div class="vital-box">
-            <div class="vital-value">{{ report.oxygen_level ? report.oxygen_level + '%' : '—' }}</div>
-            <div class="vital-label">O2 level</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 class="card-title">Food and fluid</h3>
-        <table class="detail-table">
-          <tr>
-            <td class="label">Mood</td>
-            <td>{{ report.mood || 'Not recorded' }}</td>
-          </tr>
-          <tr>
-            <td class="label">Appetite</td>
-            <td>{{ report.appetite || 'Not recorded' }}</td>
-          </tr>
-          <tr>
-            <td class="label">Food intake</td>
-            <td>{{ report.food_intake || 'Not recorded' }}</td>
-          </tr>
-          <tr>
-            <td class="label">Fluid intake</td>
-            <td>{{ report.fluid_intake_ml ? report.fluid_intake_ml + ' ml' : 'Not recorded' }}</td>
-          </tr>
-          <tr>
-            <td class="label">Bowel movement</td>
-            <td>{{ report.bowel_movement ? 'Yes' : 'No' }}</td>
-          </tr>
-          <tr>
-            <td class="label">Sleep quality</td>
-            <td>{{ report.sleep_quality || 'Not recorded' }}</td>
-          </tr>
-        </table>
-      </div>
-
-      <div class="card full-width" *ngIf="report.observations">
-        <h3 class="card-title">Observations</h3>
-        <p class="detail-text">{{ report.observations }}</p>
-      </div>
-
-      <div class="card full-width concerns-card" *ngIf="report.concerns">
-        <h3 class="card-title">⚠ Concerns</h3>
-        <p class="detail-text">{{ report.concerns }}</p>
-      </div>
-
+    <div class="card-modern">
+      <h3 class="card-title-modern">Vitals</h3>
+      <table class="detail-table-modern">
+        <tr><td class="label">Temperature</td><td>{{ report.temperature ? report.temperature + '°F' : '—' }}</td></tr>
+        <tr><td class="label">Pulse</td><td>{{ report.pulse ? report.pulse + ' bpm' : '—' }}</td></tr>
+        <tr><td class="label">Blood pressure</td><td>{{ report.blood_pressure || '—' }}</td></tr>
+        <tr><td class="label">O₂ level</td><td>{{ report.oxygen_level ? report.oxygen_level + '%' : '—' }}</td></tr>
+      </table>
     </div>
 
+    <div class="card-modern">
+      <h3 class="card-title-modern">Food and fluid</h3>
+      <table class="detail-table-modern">
+        <tr><td class="label">Appetite</td><td>{{ report.appetite || '—' }}</td></tr>
+        <tr><td class="label">Food intake</td><td>{{ report.food_intake || '—' }}</td></tr>
+        <tr><td class="label">Fluid intake</td><td>{{ report.fluid_intake_ml ? report.fluid_intake_ml + ' ml' : '—' }}</td></tr>
+        <tr><td class="label">Bowel movement</td><td>{{ report.bowel_movement ? 'Yes' : 'No' }}</td></tr>
+        <tr><td class="label">Sleep quality</td><td>{{ report.sleep_quality || '—' }}</td></tr>
+      </table>
+    </div>
+
+    <div class="card-modern" *ngIf="report.observations">
+      <h3 class="card-title-modern">Observations</h3>
+      <div class="abc-section-text">{{ report.observations }}</div>
+    </div>
+
+    <div class="card-modern concerns-card" *ngIf="report.concerns">
+      <h3 class="card-title-modern">⚠ Concerns</h3>
+      <div class="abc-section-text">{{ report.concerns }}</div>
+    </div>
   </ng-container>
+
+  <div *ngIf="loading" class="loading-msg">Loading...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
 
 </div>

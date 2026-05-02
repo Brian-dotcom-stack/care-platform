@@ -1,18 +1,31 @@
 <div class="page-container">
 
-  <div *ngIf="loading" class="loading-msg">Loading...</div>
-  <div *ngIf="error" class="error-msg">{{ error }}</div>
+  <ng-container *ngIf="loading">
+    <div class="loading-msg">Loading...</div>
+  </ng-container>
+
+  <ng-container *ngIf="error">
+    <div class="error-msg">{{ error }}</div>
+  </ng-container>
 
   <ng-container *ngIf="!loading && client">
 
     <a routerLink="/clients" class="back-link">← Back to clients</a>
 
-    <div class="card profile-header">
-      <div class="profile-left">
+    <!-- Modern unified header -->
+    <div class="profile-header-modern">
+      <div class="profile-info">
         <div class="avatar large">{{ getInitials(client.full_name) }}</div>
-        <div>
+
+        <div class="profile-text">
           <h2 class="profile-name">{{ client.full_name }}</h2>
-          <p class="profile-sub">Age {{ getAge(client.date_of_birth) }} · {{ client.gender }}</p>
+
+          <div class="profile-meta">
+            <span>Age {{ getAge(client.date_of_birth) }}</span>
+            <span class="dot">•</span>
+            <span>{{ client.gender }}</span>
+          </div>
+
           <div class="profile-badges">
             <span class="badge" [ngClass]="getStatusBadge(client.status)">
               {{ client.status }}
@@ -20,7 +33,10 @@
           </div>
         </div>
       </div>
-      <a [routerLink]="['/clients', client.id, 'edit']" class="btn-outline">Edit profile</a>
+
+      <a [routerLink]="['/clients', client.id, 'edit']" class="modern-edit-btn btn-outline">
+        Edit profile
+      </a>
     </div>
 
     <div class="detail-grid">
@@ -42,6 +58,7 @@
           <tr><td class="label">GP phone</td><td>{{ client.gp_phone || 'Not provided' }}</td></tr>
           <tr><td class="label">Allergies</td><td>{{ client.allergies || 'None recorded' }}</td></tr>
         </table>
+
         <div *ngIf="client.medical_notes" class="notes-box">
           <p class="notes-label">Medical notes</p>
           <p class="notes-text">{{ client.medical_notes }}</p>
@@ -68,24 +85,3 @@
             + New plan
           </a>
         </div>
-        <div *ngIf="carePlans.length === 0" class="empty-state">
-          No care plans yet.
-        </div>
-        <div *ngFor="let plan of carePlans" class="plan-item">
-          <div class="plan-header">
-            <span class="plan-title">{{ plan.title }}</span>
-            <span class="badge" [ngClass]="getPlanBadge(plan.status)">{{ plan.status }}</span>
-          </div>
-          <div class="plan-meta">
-            Created by {{ plan.created_by_name || 'Unknown' }} ·
-            <span *ngIf="plan.next_review">Review due {{ plan.next_review | date:'dd/MM/yyyy' }}</span>
-            <span *ngIf="!plan.next_review">No review date set</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-  </ng-container>
-
-</div>

@@ -7,61 +7,74 @@
 
     <a routerLink="/incidents" class="back-link">← Back to incidents</a>
 
-    <div class="card profile-header">
-      <div class="header-left">
-        <h2 class="profile-name">{{ getTypeLabel(incident.incident_type) }} — {{ incident.client_name }}</h2>
-        <p class="profile-sub">
-          {{ incident.date_occurred | date:'dd/MM/yyyy HH:mm' }}
-          <span *ngIf="incident.location"> · {{ incident.location }}</span>
-          · Reported by {{ incident.reported_by_name }}
-        </p>
+    <!-- Modern unified header -->
+    <div class="detail-header-modern">
+      <div class="detail-header-left">
+
+        <h2 class="detail-title">
+          {{ getTypeLabel(incident.incident_type) }} — {{ incident.client_name }}
+        </h2>
+
+        <div class="detail-meta">
+          <span>{{ incident.date_occurred | date:'dd/MM/yyyy HH:mm' }}</span>
+
+          <span class="dot" *ngIf="incident.location">•</span>
+          <span *ngIf="incident.location">{{ incident.location }}</span>
+
+          <span class="dot">•</span>
+          <span>Reported by {{ incident.reported_by_name }}</span>
+        </div>
+
         <div class="profile-badges">
           <span class="badge" [ngClass]="getSeverityBadge(incident.severity)">
             {{ incident.severity }}
           </span>
+
           <span class="badge" [ngClass]="getStatusBadge(incident.status)">
             {{ incident.status }}
           </span>
         </div>
+
       </div>
-      <a [routerLink]="['/incidents', incident.id, 'edit']" class="btn-outline">Edit</a>
+
+      <a [routerLink]="['/incidents', incident.id, 'edit']"
+         class="modern-edit-btn btn-outline">
+        Edit
+      </a>
     </div>
 
-    <div class="detail-grid">
+    <!-- Modern cards -->
+    <div class="card-modern">
+      <h3 class="card-title-modern">Description</h3>
+      <div class="abc-section-text">{{ incident.description }}</div>
+    </div>
 
-      <div class="card full-width">
-        <h3 class="card-title">Description</h3>
-        <p class="detail-text">{{ incident.description }}</p>
-      </div>
+    <div class="card-modern" *ngIf="incident.immediate_action">
+      <h3 class="card-title-modern">Immediate action taken</h3>
+      <div class="abc-section-text">{{ incident.immediate_action }}</div>
+    </div>
 
-      <div class="card" *ngIf="incident.immediate_action">
-        <h3 class="card-title">Immediate action taken</h3>
-        <p class="detail-text">{{ incident.immediate_action }}</p>
-      </div>
+    <div class="card-modern" *ngIf="incident.follow_up">
+      <h3 class="card-title-modern">Follow up required</h3>
+      <div class="abc-section-text">{{ incident.follow_up }}</div>
+    </div>
 
-      <div class="card" *ngIf="incident.follow_up">
-        <h3 class="card-title">Follow up required</h3>
-        <p class="detail-text">{{ incident.follow_up }}</p>
-      </div>
-
-      <div class="card">
-        <h3 class="card-title">Additional details</h3>
-        <table class="detail-table">
-          <tr>
-            <td class="label">Witnesses</td>
-            <td>{{ incident.witnesses || 'None recorded' }}</td>
-          </tr>
-          <tr>
-            <td class="label">Reported by</td>
-            <td>{{ incident.reported_by_name }}</td>
-          </tr>
-          <tr>
-            <td class="label">Logged at</td>
-            <td>{{ incident.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
-          </tr>
-        </table>
-      </div>
-
+    <div class="card-modern">
+      <h3 class="card-title-modern">Additional details</h3>
+      <table class="detail-table-modern">
+        <tr>
+          <td class="label">Witnesses</td>
+          <td>{{ incident.witnesses || 'None recorded' }}</td>
+        </tr>
+        <tr>
+          <td class="label">Reported by</td>
+          <td>{{ incident.reported_by_name }}</td>
+        </tr>
+        <tr>
+          <td class="label">Logged at</td>
+          <td>{{ incident.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+        </tr>
+      </table>
     </div>
 
   </ng-container>

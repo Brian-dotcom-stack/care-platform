@@ -1,51 +1,67 @@
+/* Header */
 .list-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
+/* Primary button */
 .btn-primary {
-    background-color: #1a56a0;
-    color: white;
-    padding: 9px 16px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
+  background-color: var(--brand);
+  color: white;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
 }
 
+/* Filters */
 .filters {
-    display: flex;
-    gap: 12px;
-    padding: 14px 16px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
 }
 
 .search-input {
-    flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 13px;
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
 }
 
 .role-select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 13px;
-    background: white;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--bg-input);
+  color: var(--text-primary);
 }
 
+/* Staff grid */
 .staff-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 14px;
 }
 
+/* Staff card */
 .staff-card {
   background: var(--bg-surface);
   border: 1px solid var(--border);
@@ -58,10 +74,11 @@
 
   &:hover {
     border-color: var(--brand);
-    box-shadow: 0 2px 8px rgba(26,86,160,0.08);
+    box-shadow: 0 2px 8px rgba(26, 86, 160, 0.08);
   }
 }
 
+/* Card top */
 .card-top {
   display: flex;
   align-items: center;
@@ -81,22 +98,26 @@
   margin-top: 2px;
 }
 
+/* Card bottom */
 .card-bottom {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
 }
 
-.loading-msg, empty-state {
-    text-align: center;
-    color: #888;
-    padding: 40px;
+/* Loading + empty */
+.loading-msg,
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 40px;
 }
 
+/* Error */
 .error-msg {
-    background: #fcebeb;
-    color: #a32d2d;
-    padding: 12px 16px;
-    border-radius: 6px;
-    margin-bottom: 16px;
+  background: var(--error-bg);
+  color: var(--error-text);
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
 }
