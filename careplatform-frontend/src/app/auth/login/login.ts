@@ -16,6 +16,9 @@ export class LoginComponent {
   password = '';
   error = '';
   loading = false;
+  showPassword = false;
+  rememberMe = false;
+  tab: 'signin' | 'create' = 'signin';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,7 +32,7 @@ export class LoginComponent {
       next: (res) => {
         localStorage.setItem('access_token', res.access);
         localStorage.setItem('refresh_token', res.refresh);
-        this.router.navigate(['/staff']);
+        this.router.navigate(['/dashboard']);
       },
       error: () => {
         this.error = 'Invalid username or password. Please try again.';

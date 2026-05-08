@@ -3,7 +3,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from staff.token_serializers import CareConnectTokenSerializer
 
+class CareConnectTokenView(TokenObtainPairView):
+    serializer_class = CareConnectTokenSerializer
+    
 urlpatterns = [
     path('admin/', admin.site.urls),
 

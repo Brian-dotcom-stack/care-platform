@@ -1,43 +1,203 @@
-<div class="login-page">
-  <div class="login-card">
+<div class="login-shell">
 
-    <div class="login-logo">
-      <div class="logo-mark">CC</div>
-      <div>
-        <div class="logo-name">CareConnect</div>
-        <div class="logo-org">Medicare Support & Housing Ltd</div>
+  <!-- LEFT PANEL -->
+  <div class="login-left">
+    <div class="login-left-content">
+      <div class="login-brand">
+        <img src="assets/logo/careconnect-light.png" alt="CareConnect"
+             class="brand-logo" onerror="this.style.display='none'" />
+        <div *ngIf="true" class="brand-fallback">
+          <div class="brand-icon">CC</div>
+          <div>
+            <div class="brand-name">CareConnect</div>
+            <div class="brand-tagline">Hub</div>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="left-headline">
+        Everything your care agency needs,
+        <span class="highlight">connected.</span>
+      </h1>
+
+      <p class="left-sub">
+        CareConnect Hub helps you manage staff, clients and daily care
+        records in one secure and simple platform.
+      </p>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon blue">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 18c0-4 3.6-7 8-7s8 3 8 7"
+                    stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="feature-title">Staff & Compliance</div>
+            <div class="feature-desc">Track staff, training, certifications and compliance with ease.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon green">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="3" y="2" width="14" height="16" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+              <path d="M7 7h6M7 10h6M7 13h4" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="feature-title">Daily Care Logs</div>
+            <div class="feature-desc">Record visits, notes, care plans and important updates.</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon purple">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="12" width="4" height="6" rx="1" fill="white" opacity=".8"/>
+              <rect x="8" y="8" width="4" height="10" rx="1" fill="white" opacity=".8"/>
+              <rect x="14" y="4" width="4" height="14" rx="1" fill="white" opacity=".8"/>
+            </svg>
+          </div>
+          <div>
+            <div class="feature-title">Simple Dashboard</div>
+            <div class="feature-desc">Get a clear overview of your agency at a glance.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-badge">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M9 2L3 5v4c0 3.5 2.5 6.7 6 7.7 3.5-1 6-4.2 6-7.7V5L9 2z"
+                stroke="#22c55e" stroke-width="1.5" fill="none"/>
+          <path d="M6 9l2 2 4-4" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="trust-title">Secure. Compliant. Trusted.</div>
+          <div class="trust-desc">Your data is protected with industry-leading security and privacy.</div>
+        </div>
       </div>
     </div>
 
-    <h2 class="login-title">Sign in to your account</h2>
-
-    <div *ngIf="error" class="error-msg">{{ error }}</div>
-
-    <div class="form-field">
-      <label>Username</label>
-      <input
-        [(ngModel)]="username"
-        type="text"
-        placeholder="Enter your username"
-        class="form-input"
-        (keyup.enter)="login()"
-      />
+    <div class="left-bg-circles">
+      <div class="circle c1"></div>
+      <div class="circle c2"></div>
+      <div class="circle c3"></div>
     </div>
-
-    <div class="form-field">
-      <label>Password</label>
-      <input
-        [(ngModel)]="password"
-        type="password"
-        placeholder="Enter your password"
-        class="form-input"
-        (keyup.enter)="login()"
-      />
-    </div>
-
-    <button (click)="login()" [disabled]="loading" class="login-btn">
-      {{ loading ? 'Signing in...' : 'Sign in' }}
-    </button>
-
   </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="login-right">
+    <div class="login-form-wrap">
+
+      <div class="form-tabs">
+        <button [class.active]="tab === 'signin'" (click)="tab='signin'">Sign In</button>
+        <button [class.active]="tab === 'create'" (click)="tab='create'" disabled>Create Account</button>
+      </div>
+
+      <h2 class="form-title">Welcome back!</h2>
+      <p class="form-sub">Sign in to access your CareConnect Hub account.</p>
+
+      <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+      <div class="form-field">
+        <label>Username</label>
+        <div class="input-wrap">
+          <svg class="input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="6" r="3" stroke="#9ca3af" stroke-width="1.2"/>
+            <path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
+          </svg>
+          <input [(ngModel)]="username" type="text" placeholder="Enter your username"
+                 class="form-input" (keyup.enter)="login()" name="username" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Password</label>
+        <div class="input-wrap">
+          <svg class="input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <rect x="3" y="7" width="10" height="8" rx="1.5" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
+            <path d="M5 7V5a3 3 0 016 0v2" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
+          </svg>
+          <input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'"
+                 placeholder="Enter your password" class="form-input"
+                 (keyup.enter)="login()" name="password" />
+          <button class="eye-btn" (click)="showPassword = !showPassword" type="button">
+            <svg *ngIf="!showPassword" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M8 3C4.7 3 2 8 2 8s2.7 5 6 5 6-5 6-5-2.7-5-6-5z" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
+              <circle cx="8" cy="8" r="2" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
+            </svg>
+            <svg *ngIf="showPassword" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 2l12 12M6.5 6.6A2 2 0 0110 9.5M4 4.3C2.9 5.3 2 6.8 2 8c0 0 2.7 5 6 5 1.1 0 2.1-.4 3-1M7 3.1C7.3 3 7.7 3 8 3c3.3 0 6 5 6 5-.4.8-1 1.6-1.6 2.3"
+                    stroke="#9ca3af" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-extras">
+        <label class="remember-me">
+          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
+          Remember me
+        </label>
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+
+      <button (click)="login()" [disabled]="loading" class="sign-in-btn">
+        <svg *ngIf="!loading" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="5" width="9" height="10" rx="1.5" stroke="white" stroke-width="1.2" fill="none"/>
+          <path d="M10 3h3a1 1 0 011 1v8a1 1 0 01-1 1h-3M7 8h7M12 6l2 2-2 2"
+                stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+        {{ loading ? 'Signing in...' : 'Sign In' }}
+      </button>
+
+    </div>
+
+    <div class="login-footer">
+      <div class="footer-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2L3 4.5v3c0 3 1.9 5.8 5 6.5 3.1-.7 5-3.5 5-6.5v-3L8 2z"
+                stroke="#0f6e56" stroke-width="1.2" fill="none"/>
+          <path d="M5.5 8l2 2 3-3" stroke="#0f6e56" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="footer-title">Secure & Private</div>
+          <div class="footer-desc">Your data is safe with us</div>
+        </div>
+      </div>
+      <div class="footer-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="#1a56a0" stroke-width="1.2" fill="none"/>
+          <path d="M8 4v4l3 2" stroke="#1a56a0" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="footer-title">Access Anywhere</div>
+          <div class="footer-desc">Work on the go, anytime</div>
+        </div>
+      </div>
+      <div class="footer-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="6" cy="5" r="2.5" stroke="#7c3aed" stroke-width="1.2" fill="none"/>
+          <circle cx="11" cy="5" r="2.5" stroke="#7c3aed" stroke-width="1.2" fill="none" opacity=".5"/>
+          <path d="M1 13c0-2.8 2.2-4 5-4s5 1.2 5 4" stroke="#7c3aed" stroke-width="1.2" fill="none"/>
+        </svg>
+        <div>
+          <div class="footer-title">Built for Care</div>
+          <div class="footer-desc">Designed for care agencies</div>
+        </div>
+      </div>
+      <div class="footer-item">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2L3 4.5v3c0 3 1.9 5.8 5 6.5 3.1-.7 5-3.5 5-6.5v-3L8 2z"
+                stroke="#d97706" stroke-width="1.2" fill="none"/>
+          <path d="M5.5 8l2 2 3-3" stroke="#d97706" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="footer-title">Compliant Ready</div>
+          <div class="footer-desc">Stay audit and inspection ready</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

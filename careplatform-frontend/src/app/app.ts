@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   isDarkMode = false;
 
-  constructor(private router: Router) {}
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {
     if (typeof window !== 'undefined') {
@@ -25,30 +25,15 @@ export class AppComponent implements OnInit {
     }
   }
 
-  isLoggedIn(): boolean {
-    if (typeof window === 'undefined') return false;
-    return !!localStorage.getItem('access_token');
-  }
-
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('dark_mode', 'true');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('dark_mode', 'false');
-    }
-  }
-
-  logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('clock_in_time');
-    this.router.navigate(['/login']);
+    document.body.classList.toggle('dark-mode', this.isDarkMode);
+    localStorage.setItem('dark_mode', String(this.isDarkMode));
   }
 
   getInitials(): string {
-    return 'BM';
+    const name = this.auth.getFullName();
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 }
+
