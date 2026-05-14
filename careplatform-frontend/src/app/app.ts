@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
 
   getInitials(): string {
     const name = this.auth.getFullName();
+    if (!name) return '??';
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
   }
 }

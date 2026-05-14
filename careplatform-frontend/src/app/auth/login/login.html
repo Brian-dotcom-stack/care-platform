@@ -4,8 +4,7 @@
   <div class="login-left">
     <div class="login-left-content">
       <div class="login-brand">
-        <img src="assets/logo/careconnect-light.png" alt="CareConnect"
-             class="brand-logo" onerror="this.style.display='none'" />
+        <img src="assets/logo/careconnect-light.png" alt="CareConnect" class="brand-logo" onerror="this.style.display='none'" />
         <div *ngIf="true" class="brand-fallback">
           <div class="brand-icon">CC</div>
           <div>
@@ -29,8 +28,7 @@
         <div class="feature-item">
           <div class="feature-icon blue">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 18c0-4 3.6-7 8-7s8 3 8 7"
-                    stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              <path d="M10 10a4 4 0 100-8 4 4 0 000 8zM2 18c0-4 3.6-7 8-7s8 3 8 7" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>
             </svg>
           </div>
           <div>
@@ -67,8 +65,7 @@
 
       <div class="trust-badge">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M9 2L3 5v4c0 3.5 2.5 6.7 6 7.7 3.5-1 6-4.2 6-7.7V5L9 2z"
-                stroke="#22c55e" stroke-width="1.5" fill="none"/>
+          <path d="M9 2L3 5v4c0 3.5 2.5 6.7 6 7.7 3.5-1 6-4.2 6-7.7V5L9 2z" stroke="#22c55e" stroke-width="1.5" fill="none"/>
           <path d="M6 9l2 2 4-4" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <div>
@@ -91,13 +88,28 @@
 
       <div class="form-tabs">
         <button [class.active]="tab === 'signin'" (click)="tab='signin'">Sign In</button>
-        <button [class.active]="tab === 'create'" (click)="tab='create'" disabled>Create Account</button>
+        <button [class.active]="tab === 'create'" (click)="tab='create'">Create Account</button>
       </div>
 
-      <h2 class="form-title">Welcome back!</h2>
-      <p class="form-sub">Sign in to access your CareConnect Hub account.</p>
+      <!-- Dynamic Header -->
+      <h2 class="form-title">{{ tab === 'signin' ? 'Welcome back!' : 'Get Started' }}</h2>
+      <p class="form-sub">
+        {{ tab === 'signin' ? 'Sign in to access your CareConnect Hub account.' : 'Create an account to start managing your agency.' }}
+      </p>
 
       <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+      <!-- Email Field (Only for Create Account) -->
+      <div class="form-field" *ngIf="tab === 'create'">
+        <label>Email Address</label>
+        <div class="input-wrap">
+          <svg class="input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2 4l6 4 6-4v8H2V4z" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
+            <path d="M2 4l6 4 6-4" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
+          </svg>
+          <input [(ngModel)]="email" type="email" placeholder="Enter your email" class="form-input" name="email" />
+        </div>
+      </div>
 
       <div class="form-field">
         <label>Username</label>
@@ -107,7 +119,7 @@
             <path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
           </svg>
           <input [(ngModel)]="username" type="text" placeholder="Enter your username"
-                 class="form-input" (keyup.enter)="login()" name="username" />
+                 class="form-input" (keyup.enter)="tab === 'signin' ? login() : register()" name="username" />
         </div>
       </div>
 
@@ -120,21 +132,20 @@
           </svg>
           <input [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'"
                  placeholder="Enter your password" class="form-input"
-                 (keyup.enter)="login()" name="password" />
+                 (keyup.enter)="tab === 'signin' ? login() : register()" name="password" />
           <button class="eye-btn" (click)="showPassword = !showPassword" type="button">
             <svg *ngIf="!showPassword" width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M8 3C4.7 3 2 8 2 8s2.7 5 6 5 6-5 6-5-2.7-5-6-5z" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
               <circle cx="8" cy="8" r="2" stroke="#9ca3af" stroke-width="1.2" fill="none"/>
             </svg>
             <svg *ngIf="showPassword" width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M2 2l12 12M6.5 6.6A2 2 0 0110 9.5M4 4.3C2.9 5.3 2 6.8 2 8c0 0 2.7 5 6 5 1.1 0 2.1-.4 3-1M7 3.1C7.3 3 7.7 3 8 3c3.3 0 6 5 6 5-.4.8-1 1.6-1.6 2.3"
-                    stroke="#9ca3af" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              <path d="M2 2l12 12" stroke="#9ca3af" stroke-width="1.2" fill="none" stroke-linecap="round"/>
             </svg>
           </button>
         </div>
       </div>
 
-      <div class="form-extras">
+      <div class="form-extras" *ngIf="tab === 'signin'">
         <label class="remember-me">
           <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
           Remember me
@@ -142,22 +153,23 @@
         <a href="#" class="forgot-link">Forgot password?</a>
       </div>
 
-      <button (click)="login()" [disabled]="loading" class="sign-in-btn">
+      <!-- Dynamic Button -->
+      <button (click)="tab === 'signin' ? login() : register()" [disabled]="loading" class="sign-in-btn">
         <svg *ngIf="!loading" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <rect x="2" y="5" width="9" height="10" rx="1.5" stroke="white" stroke-width="1.2" fill="none"/>
           <path d="M10 3h3a1 1 0 011 1v8a1 1 0 01-1 1h-3M7 8h7M12 6l2 2-2 2"
                 stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round"/>
         </svg>
-        {{ loading ? 'Signing in...' : 'Sign In' }}
+        {{ loading ? (tab === 'signin' ? 'Signing in...' : 'Creating Account...') : (tab === 'signin' ? 'Sign In' : 'Create Account') }}
       </button>
 
     </div>
 
+    <!-- FOOTER - AS PER {BD9FBA5B-CF75-4416-85DA-479BB1793B46}.png -->
     <div class="login-footer">
       <div class="footer-item">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 2L3 4.5v3c0 3 1.9 5.8 5 6.5 3.1-.7 5-3.5 5-6.5v-3L8 2z"
-                stroke="#0f6e56" stroke-width="1.2" fill="none"/>
+          <path d="M8 2L3 4.5v3c0 3 1.9 5.8 5 6.5 3.1-.7 5-3.5 5-6.5v-3L8 2z" stroke="#0f6e56" stroke-width="1.2" fill="none"/>
           <path d="M5.5 8l2 2 3-3" stroke="#0f6e56" stroke-width="1.2" stroke-linecap="round"/>
         </svg>
         <div>
@@ -178,7 +190,6 @@
       <div class="footer-item">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <circle cx="6" cy="5" r="2.5" stroke="#7c3aed" stroke-width="1.2" fill="none"/>
-          <circle cx="11" cy="5" r="2.5" stroke="#7c3aed" stroke-width="1.2" fill="none" opacity=".5"/>
           <path d="M1 13c0-2.8 2.2-4 5-4s5 1.2 5 4" stroke="#7c3aed" stroke-width="1.2" fill="none"/>
         </svg>
         <div>
@@ -188,8 +199,7 @@
       </div>
       <div class="footer-item">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M8 2L3 4.5v3c0 3 1.9 5.8 5 6.5 3.1-.7 5-3.5 5-6.5v-3L8 2z"
-                stroke="#d97706" stroke-width="1.2" fill="none"/>
+          <path d="M8 2L3 4.5v3c0 3 1.9 5.8 5 6.5 3.1-.7 5-3.5 5-6.5v-3L8 2z" stroke="#d97706" stroke-width="1.2" fill="none"/>
           <path d="M5.5 8l2 2 3-3" stroke="#d97706" stroke-width="1.2" stroke-linecap="round"/>
         </svg>
         <div>

@@ -6,11 +6,6 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   {
-    path: 'dashboard',
-    canActivate: [authGuard],
-    loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent)
-  },
-  {
     path: 'staff',
     canActivate: [authGuard],
     loadChildren: () => import('./staff/staff.routes').then(m => m.staffRoutes)
@@ -39,5 +34,10 @@ export const routes: Routes = [
     path: 'abc',
     canActivate: [authGuard],
     loadChildren: () => import('./abc/abc.routes').then(m => m.abcRoutes)
+  },
+  {
+    path: 'dashboard',
+    canActivate: [authGuard],
+    loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent)
   }
 ];
