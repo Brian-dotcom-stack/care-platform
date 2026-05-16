@@ -49,6 +49,7 @@ export class StaffFormComponent implements OnInit {
       this.isEditMode = true;
       this.staffId = Number(id);
       this.loading = true;
+      this.error = '';
       this.staffService.getOne(this.staffId).subscribe({
         next: (data) => {
           this.formData = { ...data };

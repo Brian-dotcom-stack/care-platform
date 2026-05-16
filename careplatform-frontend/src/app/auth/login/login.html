@@ -4,8 +4,14 @@
   <div class="login-left">
     <div class="login-left-content">
       <div class="login-brand">
-        <img src="assets/logo/careconnect-light.png" alt="CareConnect" class="brand-logo" onerror="this.style.display='none'" />
-        <div *ngIf="true" class="brand-fallback">
+        <img
+          *ngIf="!logoError"
+          src="assets/logo/careconnect-light.png"
+          alt="CareConnect"
+          class="brand-logo"
+          (error)="handleLogoError()"
+        />
+        <div *ngIf="logoError" class="brand-fallback">
           <div class="brand-icon">CC</div>
           <div>
             <div class="brand-name">CareConnect</div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,7 @@ import { AuthService } from '../auth/auth.service';
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
+  private api = environment.apiUrl;
   stats = { staff: 0, clients: 0, visits: 0, incidents: 0 };
   todayShifts: any[] = [];
   recentActivity: any[] = [];

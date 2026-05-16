@@ -150,7 +150,7 @@
 
 .login-right {
   flex: 1;
-  background: #f8fafc;
+  background: var(--bg-app);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -174,7 +174,7 @@
   background: none;
   border: none;
   font-size: 15px;
-  color: #6b7280;
+  color: var(--text-muted);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
@@ -183,7 +183,7 @@
 }
 
 .form-tabs button.active {
-  color: #1a56a0;
+  color: var(--brand);
   border-bottom-color: #1a56a0;
   font-weight: 500;
 }
@@ -196,13 +196,13 @@
 .form-title {
   font-size: 24px;
   font-weight: 700;
-  color: #111;
+  color: var(--text-primary);
   margin-bottom: 6px;
 }
 
 .form-sub {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--text-secondary);
   margin-bottom: 24px;
 }
 
@@ -214,7 +214,7 @@
   display: block;
   font-size: 13px;
   font-weight: 500;
-  color: #374151;
+  color: var(--text-secondary);
   margin-bottom: 6px;
 }
 
@@ -233,22 +233,22 @@
 .form-input {
   width: 100%;
   padding: 11px 12px 11px 38px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--border-input);
   border-radius: 8px;
   font-size: 14px;
-  background: white;
-  color: #111;
+  background: var(--bg-input);
+  color: var(--text-primary);
   outline: none;
   transition: border-color 0.15s;
   box-sizing: border-box;
 }
 
 .form-input:focus {
-  border-color: #1a56a0;
+  border-color: var(--brand);
   box-shadow: 0 0 0 3px rgba(26,86,160,0.1);
 }
 
-.form-input::placeholder { color: #9ca3af; }
+.form-input::placeholder { color: var(--text-muted); }
 
 .eye-btn {
   position: absolute;
@@ -273,7 +273,7 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #374151;
+  color: var(--text-secondary);
   cursor: pointer;
 }
 
@@ -328,7 +328,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding-top: 24px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--border);
 }
 
 .footer-item {
@@ -337,5 +337,5 @@
   gap: 8px;
 }
 
-.footer-title { font-size: 12px; font-weight: 600; color: #374151; }
-.footer-desc  { font-size: 11px; color: #9ca3af; }
+.footer-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.footer-desc  { font-size: 11px; color: var(--text-muted); }

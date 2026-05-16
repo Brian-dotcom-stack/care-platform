@@ -18,6 +18,9 @@
   --brand:        #1a56a0;
   --brand-light:  #e6f1fb;
   --brand-text:   #185fa5;
+
+  --error-bg: #fcebeb;
+  --error-text: #a32d2d
 }
 
 body.dark-mode {
@@ -39,6 +42,9 @@ body.dark-mode {
   --brand:        #4a90d9;
   --brand-light:  #1a2a40;
   --brand-text:   #7ab8f5;
+
+  --error-bg: #2d0f0f
+  --error-text: #f87171
 }
 
 /* ── Reset ── */
