@@ -19,8 +19,8 @@
   --brand-light:  #e6f1fb;
   --brand-text:   #185fa5;
 
-  --error-bg: #fcebeb;
-  --error-text: #a32d2d
+  --error-bg:     #fcebeb;
+  --error-text:   #a32d2d;
 }
 
 body.dark-mode {
@@ -43,8 +43,8 @@ body.dark-mode {
   --brand-light:  #1a2a40;
   --brand-text:   #7ab8f5;
 
-  --error-bg: #2d0f0f
-  --error-text: #f87171
+  --error-bg:     #2d0f0f;
+  --error-text:   #f87171;
 }
 
 /* ── Reset ── */
@@ -313,14 +313,9 @@ textarea.form-input { resize: vertical; }
 }
 
 .error-msg {
-  background: #fcebeb;
-  color: #a32d2d;
+  background: var(--error-bg);
+  color: var(--error-text);
   padding: 12px 16px;
   border-radius: 6px;
   margin-bottom: 16px;
-}
-
-body.dark-mode .error-msg {
-  background: #2d0f0f;
-  color: #f87171;
 }

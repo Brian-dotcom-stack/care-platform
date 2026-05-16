@@ -148,6 +148,7 @@
 .circle.c2 { width: 250px; height: 250px; bottom: 50px; right: -80px; }
 .circle.c3 { width: 150px; height: 150px; bottom: 200px; left: -50px; }
 
+/* ── RIGHT PANEL — uses CSS variables for dark mode ── */
 .login-right {
   flex: 1;
   background: var(--bg-app);
@@ -165,7 +166,7 @@
 
 .form-tabs {
   display: flex;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 28px;
 }
 
@@ -184,7 +185,7 @@
 
 .form-tabs button.active {
   color: var(--brand);
-  border-bottom-color: #1a56a0;
+  border-bottom-color: var(--brand);
   font-weight: 500;
 }
 
@@ -280,19 +281,19 @@
 .remember-me input {
   width: 15px;
   height: 15px;
-  accent-color: #1a56a0;
+  accent-color: var(--brand);
 }
 
 .forgot-link {
   font-size: 13px;
-  color: #1a56a0;
+  color: var(--brand);
   text-decoration: none;
 }
 
 .sign-in-btn {
   width: 100%;
   padding: 13px;
-  background: #1a56a0;
+  background: var(--brand);
   color: white;
   border: none;
   border-radius: 8px;
@@ -311,13 +312,14 @@
 .sign-in-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 
 .error-msg {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
+  background: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-text);
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 13px;
   margin-bottom: 16px;
+  opacity: 0.85;
 }
 
 .login-footer {

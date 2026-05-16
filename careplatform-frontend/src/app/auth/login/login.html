@@ -97,7 +97,6 @@
         <button [class.active]="tab === 'create'" (click)="tab='create'">Create Account</button>
       </div>
 
-      <!-- Dynamic Header -->
       <h2 class="form-title">{{ tab === 'signin' ? 'Welcome back!' : 'Get Started' }}</h2>
       <p class="form-sub">
         {{ tab === 'signin' ? 'Sign in to access your CareConnect Hub account.' : 'Create an account to start managing your agency.' }}
@@ -159,7 +158,6 @@
         <a href="#" class="forgot-link">Forgot password?</a>
       </div>
 
-      <!-- Dynamic Button -->
       <button (click)="tab === 'signin' ? login() : register()" [disabled]="loading" class="sign-in-btn">
         <svg *ngIf="!loading" width="16" height="16" viewBox="0 0 16 16" fill="none">
           <rect x="2" y="5" width="9" height="10" rx="1.5" stroke="white" stroke-width="1.2" fill="none"/>
@@ -171,7 +169,6 @@
 
     </div>
 
-    <!-- FOOTER - AS PER {BD9FBA5B-CF75-4416-85DA-479BB1793B46}.png -->
     <div class="login-footer">
       <div class="footer-item">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

@@ -56,11 +56,15 @@ export class StaffFormComponent implements OnInit {
           this.loading = false;
         },
         error: () => {
-          this.error = 'Could not load staff member.';
+          this.error = 'Could not load staff member. Please check the server is running.';
           this.loading = false;
         }
       });
     }
+  }
+
+  retry() {
+    this.ngOnInit();
   }
 
   save() {

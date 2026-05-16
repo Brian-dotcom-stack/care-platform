@@ -13,12 +13,13 @@ import { environment } from '../../environments/environment';
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
-  private api = environment.apiUrl;
   stats = { staff: 0, clients: 0, visits: 0, incidents: 0 };
   todayShifts: any[] = [];
   recentActivity: any[] = [];
   staffStatus: any[] = [];
   loading = true;
+
+  private api = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
@@ -27,22 +28,19 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const token = localStorage.getItem('access_token');
-    const h = { Authorization: `Bearer ${token}` };
-
-    this.http.get<any[]>('http://localhost:8000/api/staff/', { headers: h })
+    this.http.get<any[]>(`${this.api}/staff/`)
       .subscribe(d => {
         this.stats.staff = d.length;
         this.cdr.detectChanges();
       });
 
-    this.http.get<any[]>('http://localhost:8000/api/clients/', { headers: h })
+    this.http.get<any[]>(`${this.api}/clients/`)
       .subscribe(d => {
         this.stats.clients = d.length;
         this.cdr.detectChanges();
       });
 
-    this.http.get<any[]>('http://localhost:8000/api/shifts/', { headers: h })
+    this.http.get<any[]>(`${this.api}/shifts/`)
       .subscribe(d => {
         const today = new Date().toISOString().split('T')[0];
         this.todayShifts = d.filter(s =>
@@ -56,7 +54,7 @@ export class DashboardComponent implements OnInit {
         this.cdr.detectChanges();
       });
 
-    this.http.get<any[]>('http://localhost:8000/api/incidents/', { headers: h })
+    this.http.get<any[]>(`${this.api}/incidents/`)
       .subscribe(d => {
         const month = new Date().getMonth();
         this.stats.incidents = d.filter(i =>

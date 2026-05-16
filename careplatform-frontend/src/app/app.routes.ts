@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login';
-import { authGuard, adminGuard, managerGuard } from './auth/auth.guard';
+import { authGuard, managerGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-
   {
     path: 'dashboard',
     canActivate: [authGuard],
@@ -23,12 +22,12 @@ export const routes: Routes = [
   },
   {
     path: 'rostering',
-    canActivate: [authGuard],
+    canActivate: [authGuard, managerGuard],
     loadComponent: () => import('./rostering/rostering-list/rostering-list').then(m => m.RosteringListComponent)
   },
   {
     path: 'incidents',
-    canActivate: [authGuard],
+    canActivate: [authGuard, managerGuard],
     loadChildren: () => import('./incidents/incidents.routes').then(m => m.incidentRoutes)
   },
   {
@@ -40,5 +39,5 @@ export const routes: Routes = [
     path: 'abc',
     canActivate: [authGuard],
     loadChildren: () => import('./abc/abc.routes').then(m => m.abcRoutes)
-  },
+  }
 ];

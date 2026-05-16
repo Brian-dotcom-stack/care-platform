@@ -6,11 +6,14 @@
     {{ isEditMode ? 'Edit staff member' : 'Add new staff member' }}
   </h1>
 
+  <div *ngIf="loading" class="loading-msg">Loading staff member...</div>
+
   <div *ngIf="error && !loading" class="error-msg">
     {{ error }}
-    <button (click)="ngOnInit()" style="margin-left: 12px; font-size: 12px; 
-      text-decoration: underline; background: none; border: none; cursor: pointer; 
-      color: inherit;">
+    <button
+      (click)="retry()"
+      style="margin-left:12px; font-size:12px; text-decoration:underline;
+             background:none; border:none; cursor:pointer; color:inherit;">
       Try again
     </button>
   </div>

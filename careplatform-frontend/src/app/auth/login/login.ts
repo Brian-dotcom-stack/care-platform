@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,9 @@ import { HttpClient } from '@angular/common/http';
 export class LoginComponent {
   username = '';
   password = '';
-  email = ''; 
+  email = '';
   error = '';
   logoError = false;
-
-  handleLogoError() {
-    this.logoError = true;
-  }
   loading = false;
   showPassword = false;
   rememberMe = false;
@@ -28,10 +25,14 @@ export class LoginComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  handleLogoError() {
+    this.logoError = true;
+  }
+
   login() {
     this.loading = true;
     this.error = '';
-    this.http.post<any>('http://localhost:8000/api/auth/login/', {
+    this.http.post<any>(`${environment.apiUrl}/auth/login/`, {
       username: this.username,
       password: this.password
     }).subscribe({
@@ -50,7 +51,6 @@ export class LoginComponent {
   register() {
     this.loading = true;
     this.error = '';
-    // Add your registration API call here
     console.log('Registering:', this.username, this.email);
     setTimeout(() => { this.loading = false; }, 1000);
   }

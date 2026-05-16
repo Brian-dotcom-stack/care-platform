@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface Shift {
   id: number;
@@ -33,6 +34,8 @@ export class RosteringListComponent implements OnInit {
   currentUserId: number = 0;
   clockingShiftId: number | null = null;
 
+  private api = environment.apiUrl;
+
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef
@@ -42,15 +45,8 @@ export class RosteringListComponent implements OnInit {
     this.loadShifts();
   }
 
-  getHeaders() {
-    const token = localStorage.getItem('access_token');
-    return { Authorization: `Bearer ${token}` };
-  }
-
   loadShifts() {
-    this.http.get<Shift[]>('http://localhost:8000/api/shifts/', {
-      headers: this.getHeaders()
-    }).subscribe({
+    this.http.get<Shift[]>(`${this.api}/shifts/`).subscribe({
       next: (data) => {
         this.shifts = [...data];
         this.loading = false;
@@ -63,9 +59,7 @@ export class RosteringListComponent implements OnInit {
       }
     });
 
-    this.http.get<Shift[]>('http://localhost:8000/api/shifts/my_shifts/', {
-      headers: this.getHeaders()
-    }).subscribe({
+    this.http.get<Shift[]>(`${this.api}/shifts/my_shifts/`).subscribe({
       next: (data) => {
         this.myShifts = [...data];
         this.cdr.detectChanges();
@@ -76,10 +70,7 @@ export class RosteringListComponent implements OnInit {
 
   clockIn(shiftId: number) {
     this.clockingShiftId = shiftId;
-    this.http.post<Shift>(
-      `http://localhost:8000/api/shifts/${shiftId}/clock_in/`,
-      {}, { headers: this.getHeaders() }
-    ).subscribe({
+    this.http.post<Shift>(`${this.api}/shifts/${shiftId}/clock_in/`, {}).subscribe({
       next: (updated) => {
         const index = this.shifts.findIndex(s => s.id === shiftId);
         if (index !== -1) this.shifts[index] = updated;
@@ -97,10 +88,7 @@ export class RosteringListComponent implements OnInit {
 
   clockOut(shiftId: number) {
     this.clockingShiftId = shiftId;
-    this.http.post<Shift>(
-      `http://localhost:8000/api/shifts/${shiftId}/clock_out/`,
-      {}, { headers: this.getHeaders() }
-    ).subscribe({
+    this.http.post<Shift>(`${this.api}/shifts/${shiftId}/clock_out/`, {}).subscribe({
       next: (updated) => {
         const index = this.shifts.findIndex(s => s.id === shiftId);
         if (index !== -1) this.shifts[index] = updated;
