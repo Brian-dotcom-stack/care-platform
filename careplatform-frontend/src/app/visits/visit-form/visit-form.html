@@ -1,0 +1,87 @@
+<div class="page-container">
+
+  <a routerLink="/visits" class="back-link">← Back to visits</a>
+
+  <h1 class="section-title">
+    {{ isEditMode ? 'Edit visit' : 'Log new visit' }}
+  </h1>
+
+  <div *ngIf="loading" class="loading-msg">Loading...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <form *ngIf="!loading" (ngSubmit)="save()">
+
+    <div class="card">
+      <h3 class="card-title">Visit details</h3>
+
+      <div class="form-grid">
+
+        <div class="form-field">
+          <label>Client *</label>
+          <select [(ngModel)]="formData.client" name="client" required class="form-input">
+            <option value="">Select a client...</option>
+            <ng-container *ngFor="let client of clients">
+              <option [value]="client.id">{{ client.full_name }}</option>
+            </ng-container>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Staff *</label>
+          <select [(ngModel)]="formData.staff" name="staff" required class="form-input">
+            <option value="">Select staff...</option>
+            <ng-container *ngFor="let staff of staffList">
+              <option [value]="staff.id">{{ staff.full_name }}</option>
+            </ng-container>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Date *</label>
+          <input type="date" [(ngModel)]="formData.date" name="date" required class="form-input" />
+        </div>
+
+        <div class="form-field">
+          <label>Time *</label>
+          <input type="time" [(ngModel)]="formData.time" name="time" required class="form-input" />
+        </div>
+
+        <div class="form-field">
+          <label>Visit type *</label>
+          <select [(ngModel)]="formData.type" name="type" class="form-input">
+            <option value="medication">Medication</option>
+            <option value="welfare">Welfare check</option>
+            <option value="behaviour">Behaviour</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>Status *</label>
+          <select [(ngModel)]="formData.status" name="status" class="form-input">
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="form-field full-width">
+          <label>Notes</label>
+          <textarea [(ngModel)]="formData.notes" name="notes"
+                    class="form-input" rows="4"
+                    placeholder="Add any notes about the visit..."></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <a routerLink="/visits" class="btn-cancel">Cancel</a>
+      <button type="submit" [disabled]="saving" class="btn-save">
+        {{ saving ? 'Saving...' : (isEditMode ? 'Save changes' : 'Log visit') }}
+      </button>
+    </div>
+
+  </form>
+
+</div>

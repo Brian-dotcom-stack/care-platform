@@ -22,6 +22,7 @@ export class LoginComponent {
   showPassword = false;
   rememberMe = false;
   tab: 'signin' | 'create' = 'signin';
+  logoFailed = false;
 
   constructor(private http: HttpClient, private router: Router) {}
 

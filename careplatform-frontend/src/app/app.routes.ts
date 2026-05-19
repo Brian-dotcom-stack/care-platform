@@ -22,13 +22,18 @@ export const routes: Routes = [
   },
   {
     path: 'rostering',
-    canActivate: [authGuard, managerGuard],
+    canActivate: [authGuard],
     loadComponent: () => import('./rostering/rostering-list/rostering-list').then(m => m.RosteringListComponent)
   },
   {
     path: 'incidents',
-    canActivate: [authGuard, managerGuard],
+    canActivate: [authGuard],
     loadChildren: () => import('./incidents/incidents.routes').then(m => m.incidentRoutes)
+  },
+  {
+    path: 'visits',
+    canActivate: [authGuard],
+    loadChildren: () => import('./visits/visits.routes').then(m => m.visitRoutes)
   },
   {
     path: 'health',

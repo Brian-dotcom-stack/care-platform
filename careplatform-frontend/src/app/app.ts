@@ -12,6 +12,7 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent implements OnInit {
   isDarkMode = false;
+  logoError = false;
 
   constructor(public auth: AuthService) {}
 
