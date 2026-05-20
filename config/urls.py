@@ -32,5 +32,8 @@ urlpatterns = [
 
     # abc charts module endpoint
     path('api/', include('abc_charts.urls')),
+
+    # visits module endpoint
+    path('api/', include('visits.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

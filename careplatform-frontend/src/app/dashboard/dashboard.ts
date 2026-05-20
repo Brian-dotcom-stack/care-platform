@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
-  stats = { staff: 0, clients: 0, visits: 0, incidents: 0 };
+  stats = { staff: 0, clients: 0, visits: 0, incidents: 0, visitLogs: 0 };
   todayShifts: any[] = [];
   recentActivity: any[] = [];
   staffStatus: any[] = [];

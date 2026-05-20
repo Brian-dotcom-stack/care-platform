@@ -1,6 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-visit-detail',
@@ -15,34 +17,44 @@ export class VisitDetailComponent implements OnInit {
   error = '';
   id: number | null = null;
 
+  private api = environment.apiUrl;
+
   constructor(
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
 
-    // Dummy data for now
-    setTimeout(() => {
-      this.visit = {
-        id: this.id,
-        client_name: 'Jane Doe',
-        staff_name: 'Brian Mbevi',
-        date: '2026-05-19',
-        time: '14:00',
-        type: 'medication',
-        status: 'completed',
-        notes: 'Medication administered'
-      };
+    const token = localStorage.getItem('access_token');
+    const headers = { Authorization: `Bearer ${token}` };
 
-      this.loading = false;
-      this.cdr.detectChanges();
-    }, 400);
+    this.http.get<any>(`${this.api}/visits/${this.id}/`, { headers })
+      .subscribe({
+        next: (data) => {
+          this.visit = data;
+          this.loading = false;
+        },
+        error: () => {
+          this.error = 'Could not load visit.';
+          this.loading = false;
+        }
+      });
+  }
+
+  getTypeLabel(type: string): string {
+    const map: any = {
+      medication: 'Medication',
+      welfare: 'Welfare check',
+      behaviour: 'Behaviour',
+      other: 'Other'
+    };
+    return map[type] || type;
   }
 
   getTypeBadge(type: string): string {
-    const map: Record<string, string> = {
+    const map: any = {
       medication: 'badge-blue',
       welfare: 'badge-green',
       behaviour: 'badge-amber',
@@ -52,21 +64,11 @@ export class VisitDetailComponent implements OnInit {
   }
 
   getStatusBadge(status: string): string {
-    const map: Record<string, string> = {
+    const map: any = {
       completed: 'badge-green',
       pending: 'badge-amber',
       cancelled: 'badge-red'
     };
     return map[status] || 'badge-gray';
-  }
-
-  getTypeLabel(type: string): string {
-    const map: Record<string, string> = {
-      medication: 'Medication',
-      welfare: 'Welfare check',
-      behaviour: 'Behaviour',
-      other: 'Other'
-    };
-    return map[type] || type;
   }
 }

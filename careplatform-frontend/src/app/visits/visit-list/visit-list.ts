@@ -1,68 +1,73 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
-interface VisitLog {
-  id: number;
-  client_name: string;
-  staff_name: string;
-  date: string;
-  time: string;
-  notes: string;
-  type: string;
-  status: string;
-}
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-visit-list',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, DatePipe, FormsModule],
   templateUrl: './visit-list.html',
   styleUrl: './visit-list.scss'
 })
 export class VisitListComponent implements OnInit {
-  visits: VisitLog[] = [];
-  filtered: VisitLog[] = [];
+  visits: any[] = [];
+  filtered: any[] = [];
+  staffOptions: string[] = [];
+
   searchTerm = '';
   selectedStaff = '';
+
   loading = true;
   error = '';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  private api = environment.apiUrl;
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    // Dummy data for demo
-    this.visits = [
-      {
-        id: 1,
-        client_name: 'Jane Doe',
-        staff_name: 'Brian Mbevi',
-        date: '2026-05-19',
-        time: '14:00',
-        notes: 'Medication administered',
-        type: 'medication',
-        status: 'completed'
-      },
-      {
-        id: 2,
-        client_name: 'John Smith',
-        staff_name: 'Sarah Lee',
-        date: '2026-05-19',
-        time: '10:30',
-        notes: 'Routine welfare check',
-        type: 'welfare',
-        status: 'pending'
-      }
-    ];
+    const token = localStorage.getItem('access_token');
+    const headers = { Authorization: `Bearer ${token}` };
 
-    this.filtered = [...this.visits];
-    this.loading = false;
-    this.cdr.detectChanges();
+    this.http.get<any[]>(`${this.api}/visits/`, { headers })
+      .subscribe({
+        next: (data) => {
+          this.visits = data;
+          this.filtered = data;
+          this.staffOptions = Array.from(
+            new Set(
+              data
+                .map(v => v.staff_name)
+                .filter((n: string | null) => !!n)
+            )
+          );
+          this.loading = false;
+        },
+        error: () => {
+          this.error = 'Could not load visits.';
+          this.loading = false;
+        }
+      });
+  }
+
+  applyFilters() {
+    this.filtered = this.visits.filter(v => {
+      const matchesSearch =
+        !this.searchTerm ||
+        (v.client_name || '').toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        (v.staff_name || '').toLowerCase().includes(this.searchTerm.toLowerCase());
+
+      const matchesStaff =
+        !this.selectedStaff || v.staff_name === this.selectedStaff;
+
+      return matchesSearch && matchesStaff;
+    });
   }
 
   getTypeBadge(type: string): string {
-    const map: Record<string, string> = {
+    const map: any = {
       medication: 'badge-blue',
       welfare: 'badge-green',
       behaviour: 'badge-amber',
@@ -72,7 +77,7 @@ export class VisitListComponent implements OnInit {
   }
 
   getStatusBadge(status: string): string {
-    const map: Record<string, string> = {
+    const map: any = {
       completed: 'badge-green',
       pending: 'badge-amber',
       cancelled: 'badge-red'

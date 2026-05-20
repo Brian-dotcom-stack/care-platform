@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'rostering',
     'health_reports',
     'abc_charts',
+    'visits',
 ]
 
 MIDDLEWARE = [

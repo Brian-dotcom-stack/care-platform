@@ -1,17 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-
-interface Client {
-  id: number;
-  full_name: string;
-}
-
-interface Staff {
-  id: number;
-  full_name: string;
-}
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-visit-form',
@@ -27,8 +19,8 @@ export class VisitFormComponent implements OnInit {
   saving = false;
   error = '';
 
-  clients: Client[] = [];
-  staffList: Staff[] = [];
+  clients: any[] = [];
+  staffList: any[] = [];
 
   formData: any = {
     client: '',
@@ -40,53 +32,78 @@ export class VisitFormComponent implements OnInit {
     notes: ''
   };
 
+  private api = environment.apiUrl;
+
   constructor(
+    private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    // Dummy data for now
-    this.clients = [
-      { id: 1, full_name: 'Jane Doe' },
-      { id: 2, full_name: 'John Smith' }
-    ];
+    const token = localStorage.getItem('access_token');
+    const headers = { Authorization: `Bearer ${token}` };
 
-    this.staffList = [
-      { id: 1, full_name: 'Brian Mbevi' },
-      { id: 2, full_name: 'Sarah Lee' }
-    ];
+    // Load clients
+    this.http.get<any[]>(`${this.api}/clients/`, { headers })
+      .subscribe(data => this.clients = data);
 
+    // Load staff
+    this.http.get<any[]>(`${this.api}/staff/`, { headers })
+      .subscribe(data => this.staffList = data);
+
+    // Edit mode
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode = true;
       this.visitId = Number(id);
       this.loading = true;
 
-      // Dummy load
-      setTimeout(() => {
-        this.formData = {
-          client: 1,
-          staff: 1,
-          date: '2026-05-19',
-          time: '14:00',
-          type: 'medication',
-          status: 'completed',
-          notes: 'Medication administered'
-        };
-        this.loading = false;
-        this.cdr.detectChanges();
-      }, 500);
+      this.http.get<any>(`${this.api}/visits/${this.visitId}/`, { headers })
+        .subscribe({
+          next: (data) => {
+            this.formData = {
+              client: data.client,
+              staff: data.staff,
+              date: data.date,
+              time: data.time,
+              type: data.type,
+              status: data.status,
+              notes: data.notes
+            };
+            this.loading = false;
+          },
+          error: () => {
+            this.error = 'Could not load visit.';
+            this.loading = false;
+          }
+        });
     }
   }
 
   save() {
     this.saving = true;
+    const token = localStorage.getItem('access_token');
+    const headers = { Authorization: `Bearer ${token}` };
 
-    setTimeout(() => {
-      this.saving = false;
-      this.router.navigate(['/visits']);
-    }, 800);
+    if (this.isEditMode && this.visitId) {
+      this.http.patch(`${this.api}/visits/${this.visitId}/`, this.formData, { headers })
+        .subscribe({
+          next: (res: any) => this.router.navigate(['/visits', res.id]),
+          error: () => {
+            this.error = 'Could not save changes.';
+            this.saving = false;
+          }
+        });
+    } else {
+      this.http.post(`${this.api}/visits/`, this.formData, { headers })
+        .subscribe({
+          next: (res: any) => this.router.navigate(['/visits', res.id]),
+          error: () => {
+            this.error = 'Could not log visit.';
+            this.saving = false;
+          }
+        });
+    }
   }
 }
