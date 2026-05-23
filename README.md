@@ -37,8 +37,8 @@ senior carers, and support workers to manage their day-to-day operations.
 
 > _Add screenshots of dashboard, staff list, health reports, login page_
 
-| Dashboard | Staff Profile | Health Report |
-|-----------|--------------|---------------|
+| Dashboard                                  | Staff Profile                      | Health Report                        |
+| ------------------------------------------ | ---------------------------------- | ------------------------------------ |
 | ![dashboard](docs/screenshots/dashboard.png) | ![staff](docs/screenshots/staff.png) | ![health](docs/screenshots/health.png) |
 
 ---
@@ -46,56 +46,81 @@ senior carers, and support workers to manage their day-to-day operations.
 ## Tech Stack
 
 ### Frontend
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| Angular | 21 | SPA framework |
-| TypeScript | 5.9 | Type safety |
-| SCSS | — | Styling with CSS variables |
-| Angular Router | 21 | Lazy-loaded routes with guards |
-| NgRx | 21 | State management (planned) |
-| JWT Decode | 4 | Token parsing for auth |
+
+| Technology     | Version | Purpose                        |
+| -------------- | ------- | ------------------------------ |
+| Angular        | 21      | SPA framework                  |
+| TypeScript     | 5.9     | Type safety                    |
+| SCSS           | —      | Styling with CSS variables     |
+| Angular Router | 21      | Lazy-loaded routes with guards |
+| NgRx           | 21      | State management (planned)     |
+| JWT Decode     | 4       | Token parsing for auth         |
 
 ### Backend (separate repo)
-| Technology | Purpose |
-|-----------|---------|
-| Django | REST API |
-| Django REST Framework | API endpoints |
-| SimpleJWT | Token auth |
-| SQLite → PostgreSQL | Database (dev → prod) |
+
+| Technology            | Purpose                |
+| --------------------- | ---------------------- |
+| Django                | REST API               |
+| Django REST Framework | API endpoints          |
+| SimpleJWT             | Token auth             |
+| SQLite → PostgreSQL  | Database (dev → prod) |
 
 ### Infrastructure
-| Service | Purpose |
-|--------|---------|
-| AWS Amplify | Frontend hosting + CI/CD |
-| AWS Lightsail | Backend API server |
+
+| Service           | Purpose                   |
+| ----------------- | ------------------------- |
+| AWS Amplify       | Frontend hosting + CI/CD  |
+| AWS Lightsail     | Backend API server        |
 | AWS RDS (planned) | PostgreSQL for production |
-| AWS S3 (planned) | Document/file storage |
+| AWS S3 (planned)  | Document/file storage     |
 
 ---
 
 ## Project Structure
-careplatform-frontend/
-├── src/
-│   ├── app/
-│   │   ├── auth/           # Auth service, guards, interceptor
-│   │   ├── dashboard/      # Main dashboard
-│   │   ├── staff/          # Staff CRUD + training
-│   │   ├── clients/        # Client management
-│   │   ├── rostering/      # Shift rostering
-│   │   ├── incidents/      # Incident reports
-│   │   ├── health/         # Health records
-│   │   ├── abc/            # ABC charts
-│   │   └── notes/          # Daily/hourly notes (in dev)
-│   ├── environments/       # API URL config per environment
-│   ├── assets/logo/        # Brand assets
-│   └── styles.scss         # Global CSS variables + base styles
-└── ...
+
+care-platform/
+│
+├── careplatform-backend/          # Django REST API
+│   ├── abc_charts/
+│   ├── clients/
+│   ├── config/
+│   ├── core/
+│   ├── health_reports/
+│   ├── incidents/
+│   ├── rostering/
+│   ├── staff/
+│   ├── visits/
+│   ├── manage.py
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── careplatform-frontend/         # Angular frontend
+│   ├── .angular/
+│   ├── .vscode/
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── app/                   # Feature modules + components
+│   │   ├── assets/                # Images, icons, branding
+│   │   ├── environments/          # environment.ts / environment.prod.ts
+│   │   └── index.html
+│   ├── angular.json
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── tsconfig.app.json
+│   ├── tsconfig.spec.json
+│   └── README.md
+│
+├── venv/                          # Python virtual environment (local only)
+├── .gitignore
+└── README.md                      # Main project documentation
 
 ---
 
 ## Local Setup
 
 ### Prerequisites
+
 - Node.js 20+
 - npm 11+
 - Angular CLI 21: `npm install -g @angular/cli`
@@ -132,6 +157,7 @@ python manage.py runserver
 1. Push frontend to a GitHub repo
 2. Connect repo to AWS Amplify in the AWS Console
 3. Set build settings:
+
 ```yaml
    version: 1
    frontend:
@@ -150,6 +176,7 @@ python manage.py runserver
        paths:
          - node_modules/**/*
 ```
+
 4. Set environment variable in Amplify Console:
    - `NG_APP_API_URL` = `https://your-backend-url.com/api`
 
@@ -177,14 +204,14 @@ Never commit real API URLs to git. For Amplify, use environment variables set in
 
 ## Roadmap
 
-- [x] Staff management (CRUD, training, documents)
-- [x] Client management
-- [x] Rostering + clock in/out
-- [x] Incident reporting
-- [x] Health reports
-- [x] ABC charts
-- [x] Role-based access control (guards + sidebar)
-- [x] Dark mode with CSS variables
+- [X] Staff management (CRUD, training, documents)
+- [X] Client management
+- [X] Rostering + clock in/out
+- [X] Incident reporting
+- [X] Health reports
+- [X] ABC charts
+- [X] Role-based access control (guards + sidebar)
+- [X] Dark mode with CSS variables
 - [ ] Daily & hourly notes
 - [ ] Push notifications
 - [ ] Staff compliance dashboard
